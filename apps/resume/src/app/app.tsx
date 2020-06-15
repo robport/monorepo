@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import TodoAdd from './components/todo-add';
-import TodoList from './components/todo-list';
+import TodoAdd from './components/todos/todo-add';
+import TodoList from './components/todos/todo-list';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import { LinkContainer } from 'react-router-bootstrap';
