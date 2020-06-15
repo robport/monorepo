@@ -1,35 +1,37 @@
-import React, { useEffect, useState } from 'react';
-import { Todo } from '@monoreop-1/data';
-import { Todos } from '@monoreop-1/ui';
+import React from 'react';
+import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom';
+import AddTodo from './components/add-todo';
+import TodoList from './components/todo-list';
 
 const App = () => {
-  const [todos, setTodos] = useState<Todo[]>([]);
-
-  useEffect(() => {
-    fetch('/api/todos')
-      .then((_) => _.json())
-      .then(setTodos);
-  }, []);
-
-  function addTodo() {
-    fetch('/api/addTodo', {
-      method: 'POST',
-      body: '',
-    })
-      .then((_) => _.json())
-      .then((newTodo) => {
-        setTodos([...todos, newTodo]);
-      });
-  }
-
   return (
     <div>
       <h1>Todos</h1>
-      <Todos todos={todos} />
-      <button id={'add-todo'} onClick={addTodo}>
-        Add Todo
-      </button>
+      <Router>
+        <div>
+          <nav>
+            <ul>
+              <li>
+                <Link to="/">List</Link>
+              </li>
+              <li>
+                <Link to="/add">Add</Link>
+              </li>
+            </ul>
+          </nav>
+
+          <Switch>
+            <Route id='addBtn' path="/add">
+              <AddTodo/>
+            </Route>
+            <Route path="/">
+              <TodoList/>
+            </Route>
+          </Switch>
+        </div>
+      </Router>
     </div>
+
   );
 };
 
