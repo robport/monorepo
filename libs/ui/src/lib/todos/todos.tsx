@@ -1,13 +1,27 @@
 import React from 'react';
 import { Todo } from '@monoreop-1/data';
+import Table from 'react-bootstrap/Table';
+
 
 export const Todos = (props: { todos: Todo[] }) => {
   return (
-    <ul>
+
+    <Table striped bordered hover>
+      <thead>
+      <tr>
+        <th>Id</th>
+        <th>Title</th>
+      </tr>
+      </thead>
+      <tbody>
       {props.todos.map((t) => (
-        <li key={t.id} className={'todo'}>{t.title} ({t.id})</li>
+        <tr key={t.id} className={'todo'}>
+          <td>({t.id})</td>
+          <td>{t.title}</td>
+        </tr>
       ))}
-    </ul>
+      </tbody>
+    </Table>
   );
 };
 

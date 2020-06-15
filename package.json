@@ -30,10 +30,13 @@
     "@nestjs/common": "^6.8.3",
     "@nestjs/core": "^6.8.3",
     "@nestjs/platform-express": "^6.8.3",
+    "bootstrap": "^4.5.0",
     "document-register-element": "1.13.1",
     "express": "4.17.1",
     "react": "16.13.1",
+    "react-bootstrap": "^1.0.1",
     "react-dom": "16.13.1",
+    "react-router-bootstrap": "^0.25.0",
     "react-router-dom": "^5.2.0",
     "reflect-metadata": "^0.1.13"
   },

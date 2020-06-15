@@ -5,4 +5,4 @@ export const routeToAddPage = () => {
 export const enterTodo = (title: string) => {
   cy.get('input#title').type(title);
 }
-export const getSubmitButton = () => cy.get('input#add-todo');
+export const getSubmitButton = () => cy.get('button#add-todo');

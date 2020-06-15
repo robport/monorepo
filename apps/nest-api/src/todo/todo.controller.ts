@@ -5,7 +5,7 @@ import { Todo } from '@monoreop-1/data';
 export class TodoController {
   todos: Todo[] = [
     { id: 1, title: 'First' },
-    { id: 2, title: 'Second' }
+    { id: 2, title: 'Second Todo' }
   ];
 
   @Get()
@@ -35,3 +35,4 @@ export class TodoController {
     return this.todos[id];
   }
 }
+

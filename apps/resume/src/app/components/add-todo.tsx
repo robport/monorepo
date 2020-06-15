@@ -1,5 +1,7 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
 
 class AddTodo extends React.Component {
   state = {
@@ -51,18 +53,21 @@ class AddTodo extends React.Component {
       return (<Redirect to='/list'/>);
     }
     return (
-      <form onSubmit={this.handleSubmit}>
-        <label>
-          Name:
-          <input type="text"
-                 id="title"
-                 value={this.state.value.title}
-                 onChange={this.handleChange}/>
-        </label>
-        <input id="add-todo"
-               type="submit"
-               value="Submit"/>
-      </form>
+      <Form onSubmit={this.handleSubmit}>
+        <Form.Group controlId="title">
+          <Form.Label>Title</Form.Label>
+          <Form.Control type="text"
+                        value={this.state.value.title}
+                        onChange={this.handleChange}
+                        placeholder="Title"/>
+        </Form.Group>
+
+        <Button variant="primary"
+                id="add-todo"
+                type="submit">
+          Add
+        </Button>
+      </Form>
     );
   }
 }
