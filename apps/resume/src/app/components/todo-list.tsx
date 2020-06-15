@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Todos } from '@monoreop-1/ui';
 import { Todo } from '@monoreop-1/data';
+import './todo.css'
 
 const TodoList = (props: any) => {
   const [todos, setTodos] = useState<Todo[]>([]);
@@ -12,7 +13,7 @@ const TodoList = (props: any) => {
   }, []);
 
   return (
-    <div>
+    <div className="todo-container">
       <Todos todos={todos}/>
     </div>
   );

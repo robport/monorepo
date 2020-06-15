@@ -2,8 +2,9 @@ import React from 'react';
 import { Redirect } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import './todo.css'
 
-class AddTodo extends React.Component {
+class TodoAdd extends React.Component {
   state = {
     value: {
       title: ''
@@ -50,26 +51,28 @@ class AddTodo extends React.Component {
 
   render() {
     if (this.state.redirect) {
-      return (<Redirect to='/list'/>);
+      return (<Redirect to='/'/>);
     }
     return (
-      <Form onSubmit={this.handleSubmit}>
-        <Form.Group controlId="title">
-          <Form.Label>Title</Form.Label>
-          <Form.Control type="text"
-                        value={this.state.value.title}
-                        onChange={this.handleChange}
-                        placeholder="Title"/>
-        </Form.Group>
+      <div className="todo-container">
+        <Form onSubmit={this.handleSubmit}>
+          <h6>Create a Todo</h6>
+          <Form.Group controlId="title">
+            <Form.Control type="text"
+                          value={this.state.value.title}
+                          onChange={this.handleChange}
+                          placeholder="Title"/>
+          </Form.Group>
 
-        <Button variant="primary"
-                id="add-todo"
-                type="submit">
-          Add
-        </Button>
-      </Form>
+          <Button variant="primary"
+                  id="add-todo"
+                  type="submit">
+            Add
+          </Button>
+        </Form>
+      </div>
     );
   }
 }
 
-export default AddTodo;
+export default TodoAdd;

@@ -1,4 +1,4 @@
-export const getTodos = () => cy.get('li.todo');
+export const getTodos = () => cy.get('tr.todo');
 export const routeToAddPage = () => {
   cy.visit('/add');
 };

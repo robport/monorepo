@@ -16,7 +16,7 @@ export const Todos = (props: { todos: Todo[] }) => {
       <tbody>
       {props.todos.map((t) => (
         <tr key={t.id} className={'todo'}>
-          <td>({t.id})</td>
+          <td>{t.id}</td>
           <td>{t.title}</td>
         </tr>
       ))}
