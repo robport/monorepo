@@ -1,30 +1,28 @@
 import React from 'react';
-import { Redirect } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import './todo.css'
+import { Todo } from '@monoreop-1/data';
+import './todo.css';
 
-class TodoAdd extends React.Component {
-  state = {
-    value: {
-      title: ''
-    },
-    redirect: false
+interface TodoAddProps {
+  onAdded: (todo?: Todo) => void;
+}
+
+class TodoAdd extends React.Component<TodoAddProps, Todo> {
+  state: Todo = {
+    title: '',
   };
 
-  constructor(props) {
+  constructor(props: TodoAddProps) {
     super(props);
-
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleReset = this.handleReset.bind(this);
   }
 
   handleChange(event) {
     this.setState({
-      value: {
-        title: event.target.value
-      },
-      redirect: false
+      title: event.target.value,
     });
   }
 
@@ -37,37 +35,49 @@ class TodoAdd extends React.Component {
           'Accept': 'application/json',
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(this.state.value)
+        body: JSON.stringify(this.state)
       });
       const newTodo = await result.json();
-
-      this.setState({
-        redirect: true
-      });
+      this.props.onAdded(newTodo);
+      this.setState({ title: '' });
     } catch (e) {
-      console.log(e);
+      console.error(e);
+    }
+  }
+
+  async handleReset() {
+    try {
+      await fetch('api/todos/reset');
+      this.props.onAdded();
+    } catch ( e ) {
+      // todo - error alert
+      console.error(e);
     }
   }
 
   render() {
-    if (this.state.redirect) {
-      return (<Redirect to='/'/>);
-    }
     return (
       <div className="todo-container">
         <Form onSubmit={this.handleSubmit}>
           <h6>Create a Todo</h6>
           <Form.Group controlId="title">
             <Form.Control type="text"
-                          value={this.state.value.title}
+                          value={this.state.title}
                           onChange={this.handleChange}
                           placeholder="Title"/>
           </Form.Group>
 
           <Button variant="primary"
                   id="add-todo"
+                  className="todo-button"
                   type="submit">
             Add
+          </Button>
+          <Button variant="secondary"
+                  id="reset-todos"
+                  onClick={this.handleReset}
+                  type="button">
+            Reset
           </Button>
         </Form>
       </div>

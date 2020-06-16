@@ -1,15 +1,17 @@
-import { BadRequestException, Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Get, NotFoundException, Param, Post } from '@nestjs/common';
 import { Todo } from '@monoreop-1/data';
 
 @Controller('todos')
 export class TodoController {
-  todos: Todo[] = [
-    { id: 1, title: 'First' },
-    { id: 2, title: 'Second Todo' }
-  ];
+  todos: Todo[];
+
+  constructor() {
+    this.reset();
+  }
 
   @Get()
   findAll() {
+    console.log('findall');
     return this.todos;
   }
 
@@ -29,10 +31,23 @@ export class TodoController {
     return this.todos[newId - 1];
   }
 
+  @Get('reset')
+  reset() {
+    this.todos = [
+      { id: 1, title: 'First' },
+      { id: 2, title: 'Second Todo' }
+    ];
+    return { message: 'reset success' };
+  }
+
   @Get(':id')
   findOne(@Param() params): Todo {
     const id = Number.parseInt(params.id);
+    if (id > this.todos.length || Number.isNaN(id)) {
+      throw new NotFoundException(`No such todo ${params.id}`);
+    }
     return this.todos[id];
   }
+
 }
 
