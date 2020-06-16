@@ -10,7 +10,7 @@ interface TodoAddProps {
 
 class TodoAdd extends React.Component<TodoAddProps, Todo> {
   state: Todo = {
-    title: '',
+    title: ''
   };
 
   constructor(props: TodoAddProps) {
@@ -22,7 +22,7 @@ class TodoAdd extends React.Component<TodoAddProps, Todo> {
 
   handleChange(event) {
     this.setState({
-      title: event.target.value,
+      title: event.target.value
     });
   }
 
@@ -49,7 +49,7 @@ class TodoAdd extends React.Component<TodoAddProps, Todo> {
     try {
       await fetch('api/todos/reset');
       this.props.onAdded();
-    } catch ( e ) {
+    } catch (e) {
       // todo - error alert
       console.error(e);
     }
