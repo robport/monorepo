@@ -12,7 +12,7 @@ const App = () => {
     <Router>
       <Navbar bg="light" expand="sm">
         <LinkContainer to="/">
-          <Navbar.Brand>Demo</Navbar.Brand>
+          <Navbar.Brand>Porter</Navbar.Brand>
         </LinkContainer>
         <Navbar.Toggle aria-controls="basic-navbar-nav"/>
         <Navbar.Collapse id="basic-navbar-nav">
