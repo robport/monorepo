@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import Button from 'react-bootstrap/button';
-import Alert from 'react-bootstrap/alert';
+import Button from 'react-bootstrap/Button';
+import Alert from 'react-bootstrap/Alert';
 import { CSSTransition } from 'react-transition-group';
 
 import './alert.css';
