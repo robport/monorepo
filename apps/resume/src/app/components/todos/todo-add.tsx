@@ -1,7 +1,7 @@
 import React from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import { Todo } from '@monoreop-1/data';
+import { Todo } from '@monorepo/data';
 import './todo.css';
 
 interface TodoAddProps {

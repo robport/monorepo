@@ -1,5 +1,5 @@
 import React from 'react';
-import { Todo } from '@monoreop-1/data';
+import {Todo} from '@monorepo/data';
 import Table from 'react-bootstrap/Table';
 
 

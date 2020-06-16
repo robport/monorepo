@@ -1,5 +1,5 @@
 import { Express } from 'express';
-import { Todo } from '@monoreop-1/data';
+import { Todo } from '@monorepo/data';
 
 const todos: Todo[] = [{ title: 'Todo 1' }, { title: 'Todo 2' }];
 

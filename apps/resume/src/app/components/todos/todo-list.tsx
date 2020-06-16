@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Todos } from '@monoreop-1/ui';
-import { Todo } from '@monoreop-1/data';
+import { Todos } from '@monorepo/ui';
+import { Todo } from '@monorepo/data';
 import './todo.css';
 import TodoAdd from './todo-add';
 

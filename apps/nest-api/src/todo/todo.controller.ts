@@ -1,5 +1,5 @@
 import { BadRequestException, Body, Controller, Get, NotFoundException, Param, Post } from '@nestjs/common';
-import { Todo } from '@monoreop-1/data';
+import { Todo } from '@monorepo/data';
 
 @Controller('todos')
 export class TodoController {

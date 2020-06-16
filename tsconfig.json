@@ -16,8 +16,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@monoreop-1/data": ["libs/data/src/index.ts"],
-      "@monoreop-1/ui": ["libs/ui/src/index.ts"]
+      "@monorepo/data": ["libs/data/src/index.ts"],
+      "@monorepo/ui": ["libs/ui/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
