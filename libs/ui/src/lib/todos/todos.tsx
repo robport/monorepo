@@ -1,16 +1,20 @@
 import React from 'react';
-import {Todo} from '@monorepo/data';
+import { Todo } from '@monorepo/data';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Table from 'react-bootstrap/Table';
 
+export const Todos = (props: {
+  todos: Todo[],
+  onDelete: (id: number) => void
+}) => {
 
-export const Todos = (props: { todos: Todo[] }) => {
   return (
-
-    <Table striped bordered hover>
+    <Table bordered hover>
       <thead>
       <tr>
         <th>Id</th>
         <th>Title</th>
+        <th>Delete</th>
       </tr>
       </thead>
       <tbody>
@@ -18,6 +22,13 @@ export const Todos = (props: { todos: Todo[] }) => {
         <tr key={t.id} className={'todo'}>
           <td>{t.id}</td>
           <td>{t.title}</td>
+          <td>
+            <FontAwesomeIcon
+              id={`delete-button-${t.id}`}
+              name='delete-button'
+              onClick={() => props.onDelete(t.id)}
+              icon='trash'/>
+          </td>
         </tr>
       ))}
       </tbody>

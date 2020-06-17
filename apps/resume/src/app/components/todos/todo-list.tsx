@@ -13,11 +13,17 @@ const TodoList = () => {
       .then(setTodos);
   };
 
+  const onDelete = (id: number) => {
+    fetch(`/api/todos/delete/${id}`, {
+      method: 'DELETE'
+    }).then(getAllTodos);
+  };
+
   useEffect(getAllTodos, []);
 
   return (
     <div className="todo-container">
-      <Todos todos={todos}/>
+      <Todos todos={todos} onDelete={onDelete}/>
       <TodoAdd onAdded={getAllTodos}/>
     </div>
   );
