@@ -3,6 +3,7 @@ import * as mariaDb from 'mariadb';
 import { Pool, PoolConnection } from 'mariadb';
 import { Todo } from '@monorepo/data';
 import { TodosService } from './todos.service';
+import { environment } from '../environments/environment';
 
 @Injectable()
 export class TodosMariaDbService implements TodosService{
@@ -10,6 +11,10 @@ export class TodosMariaDbService implements TodosService{
   pool: Pool;
 
   constructor() {
+    console.log('host:', process.env.DB_HOST)
+    console.log('user:', process.env.DB_USER)
+    console.log('production:', environment.production)
+
     this.pool = mariaDb.createPool({
       host: process.env.DB_HOST || 'localhost',
       user: process.env.DB_USER || 'system',
