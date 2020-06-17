@@ -11,9 +11,9 @@ export class TodosMariaDbService implements TodosService{
 
   constructor() {
     this.pool = mariaDb.createPool({
-      host: 'localhost',
-      user: 'system',
-      password: 'system',
+      host: process.env.DB_HOST || 'localhost',
+      user: process.env.DB_USER || 'system',
+      password: process.env.DB_PASSWORD || 'system',
       connectionLimit: 5,
       database: 'personal'
     });
