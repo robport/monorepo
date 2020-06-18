@@ -8,6 +8,7 @@ import { join } from 'path';
 import { TodosService } from '../todos/todos.service';
 import { environment } from '../environments/environment';
 import { TodosMariaDbService } from '../todos/todos.mariadb.service';
+import { MariaDbService } from './maria-db.service';
 
 const imports = [];
 
@@ -20,10 +21,15 @@ if (environment.production) {
 
 @Module({
   imports: imports,
-  controllers: [AppController, TodoController],
-  providers: [AppService, {
-    provide: TodosService, useClass: TodosMariaDbService
-  }]
+  controllers: [
+    AppController,
+    TodoController
+  ],
+  providers: [
+    AppService,
+    MariaDbService,
+    { provide: TodosService, useClass: TodosMariaDbService }
+  ]
 })
 export class AppModule {
 }
