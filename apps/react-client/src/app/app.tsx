@@ -39,7 +39,6 @@ const App = () => {
             <LinkContainer to="/animate">
               <Nav.Link>Animate</Nav.Link>
             </LinkContainer>
-            <Nav.Link>Animate</Nav.Link>
           </Nav>
           <Nav>
             {
