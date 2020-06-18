@@ -43,7 +43,6 @@ export class TodoController {
 
   @Delete('/delete/:id')
   async delete(@Param('id') idParam: string) {
-    console.log('delete', idParam)
     const id = Number.parseInt(idParam);
     if (Number.isNaN(id)) {
       throw new NotFoundException(`Invalid id ${id}`);

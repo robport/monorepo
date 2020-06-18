@@ -19,12 +19,12 @@
     }
   },
   "projects": {
-    "resume": {
+    "react-client": {
       "tags": []
     },
-    "resume-e2e": {
+    "react-client-e2e": {
       "tags": [],
-      "implicitDependencies": ["resume"]
+      "implicitDependencies": ["react-client"]
     },
     "api": {
       "tags": []

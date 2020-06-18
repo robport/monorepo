@@ -19,7 +19,7 @@ const imports: any[] = [
 if (environment.production) {
   imports.push(
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', 'resume')
+      rootPath: join(__dirname, '..', 'react-client')
     }));
 }
 
@@ -35,8 +35,8 @@ if (environment.production) {
     { provide: TodosService, useClass: TodosMariaDbService }
   ]
 })
-export class AppModule implements NestModule{
-  configure(consumer: MiddlewareConsumer): any {
-    consumer.apply(AuthenticationMiddleware).forRoutes('todos')
-  }
+export class AppModule {
+  // configure(consumer: MiddlewareConsumer): any {
+  //   consumer.apply(AuthenticationMiddleware).forRoutes('todos')
+  // }
 }
