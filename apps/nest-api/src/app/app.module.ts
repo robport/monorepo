@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { DynamicModule, Logger, MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -9,8 +9,12 @@ import { TodosService } from '../todos/todos.service';
 import { environment } from '../environments/environment';
 import { TodosMariaDbService } from '../todos/todos.mariadb.service';
 import { MariaDbService } from './maria-db.service';
+import { AuthenticationMiddleware } from '../middleware/authentication.middleware';
+import { AuthModule } from '../auth/auth.module';
 
-const imports = [];
+const imports: any[] = [
+  AuthModule
+];
 
 if (environment.production) {
   imports.push(
@@ -31,5 +35,8 @@ if (environment.production) {
     { provide: TodosService, useClass: TodosMariaDbService }
   ]
 })
-export class AppModule {
+export class AppModule implements NestModule{
+  configure(consumer: MiddlewareConsumer): any {
+    consumer.apply(AuthenticationMiddleware).forRoutes('todos')
+  }
 }
