@@ -1,8 +1,10 @@
 import { enterTodo, getDeleteButton, getResetButton, getSubmitButton, getTodos } from '../support/app.po';
+import { login } from '../support/auth.po';
 
 describe('TodoApps', () => {
   beforeEach(() => {
     cy.visit('/');
+    login()
     getResetButton().click();
   });
 
@@ -12,6 +14,7 @@ describe('TodoApps', () => {
     enterTodo('New Todo');
     getSubmitButton().click();
     getTodos().should((t) => expect(t.length).equal(3));
+
   });
 
   it('should delete item', () => {

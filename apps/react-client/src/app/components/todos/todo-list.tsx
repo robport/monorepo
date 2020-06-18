@@ -3,21 +3,19 @@ import { Todos } from '@monorepo/ui';
 import { Todo } from '@monorepo/data';
 import './todo.css';
 import TodoAdd from './todo-add';
+import { httpDeleteOne, httpGet } from '../../common/http';
 
 const TodoList = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
 
   const getAllTodos = () => {
-    fetch('/api/todos')
-      .then((_) => _.json())
-      .then(setTodos);
+    httpGet('todos').then(setTodos);
   };
 
   const onDelete = (id: number) => {
-    fetch(`/api/todos/delete/${id}`, {
-      method: 'DELETE'
-    }).then(getAllTodos);
+    httpDeleteOne('todos', id).then(getAllTodos);
   };
+
 
   useEffect(getAllTodos, []);
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import TodoList from './components/todos/todo-list';
 import Navbar from 'react-bootstrap/Navbar';
@@ -7,11 +7,23 @@ import { LinkContainer } from 'react-router-bootstrap';
 import AlertAnimation from './components/animation/alert';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import { httpLogout, isLoggedIn } from './common/http';
+import Login from './components/auth/login';
 
 library.add(faTrash);
 
 
 const App = () => {
+  const [showLogin, setShowLogin] = useState(false);
+  const [, setState] = useState();
+
+  const handleClose = () => setShowLogin(false);
+  const handleShow = () => setShowLogin(true);
+  const handleLogout = async () => {
+    await httpLogout();
+    setState({});
+  };
+
   return (
     <Router>
       <Navbar bg="light" expand="sm">
@@ -27,9 +39,21 @@ const App = () => {
             <LinkContainer to="/animate">
               <Nav.Link>Animate</Nav.Link>
             </LinkContainer>
+            <Nav.Link>Animate</Nav.Link>
+          </Nav>
+          <Nav>
+            {
+              isLoggedIn() &&
+              <Nav.Link id="logout" onClick={handleLogout}>Logout</Nav.Link>
+            }
+            {
+              !isLoggedIn() &&
+              <Nav.Link id="openLogin" onClick={handleShow}>Login</Nav.Link>
+            }
           </Nav>
         </Navbar.Collapse>
       </Navbar>
+      <Login show={showLogin} onClose={handleClose}/>
 
       <Switch>
         <Route path="/animate">

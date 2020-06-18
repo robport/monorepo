@@ -35,13 +35,17 @@ export class TodosMariaDbService implements TodosService {
   }
 
   async reset(): Promise<any> {
-    let conn = await this.dbService.getConnection();
-    await conn.query(
-      'DELETE FROM todos;'
-    );
-    await this.addTodo({ title: 'How to Database' });
-    await this.addTodo({ title: 'How to Authentication' });
-    return Promise.resolve(undefined);
+    try {
+      let conn = await this.dbService.getConnection();
+      await conn.query(
+        'DELETE FROM todos;'
+      );
+      await this.addTodo({ title: 'How to Database' });
+      await this.addTodo({ title: 'How to Authentication' });
+      return Promise.resolve(undefined);
+    } catch (e) {
+      return Promise.reject();
+    }
   }
 
   async deleteTodo(id: number): Promise<void> {

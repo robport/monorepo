@@ -1,6 +1,17 @@
-import { BadRequestException, Body, Controller, Delete, Get, NotFoundException, Param, Post } from '@nestjs/common';
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  Delete,
+  Get,
+  NotFoundException,
+  Param,
+  Post,
+  UseGuards
+} from '@nestjs/common';
 import { Todo } from '@monorepo/data';
 import { TodosService } from './todos.service';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
 @Controller('todos')
 export class TodoController {
@@ -14,6 +25,7 @@ export class TodoController {
     return await this.todosService.getTodos();
   }
 
+  @UseGuards(JwtAuthGuard)
   @Post()
   create(@Body() todo: Todo) {
     if (!todo || !todo.title) {
@@ -23,11 +35,16 @@ export class TodoController {
     return this.todosService.addTodo(todo);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get('reset')
   async reset() {
     await this.todosService.reset();
+    return {
+      success: true
+    }
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get(':id')
   findOne(@Param() params): Promise<Todo> {
     const id = Number.parseInt(params.id);
@@ -41,6 +58,7 @@ export class TodoController {
     return todo;
   }
 
+  @UseGuards(JwtAuthGuard)
   @Delete('/delete/:id')
   async delete(@Param('id') idParam: string) {
     const id = Number.parseInt(idParam);
@@ -49,6 +67,5 @@ export class TodoController {
     }
     await this.todosService.deleteTodo(id);
   }
-
 }
 

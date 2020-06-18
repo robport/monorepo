@@ -3,6 +3,7 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { Todo } from '@monorepo/data';
 import './todo.css';
+import { httpGet, httpPost } from '../../common/http';
 
 interface TodoAddProps {
   onAdded: (todo?: Todo) => void;
@@ -16,7 +17,7 @@ class TodoAdd extends React.Component<TodoAddProps, Todo> {
   constructor(props: TodoAddProps) {
     super(props);
     this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleAdd = this.handleAdd.bind(this);
     this.handleReset = this.handleReset.bind(this);
   }
 
@@ -26,18 +27,10 @@ class TodoAdd extends React.Component<TodoAddProps, Todo> {
     });
   }
 
-  async handleSubmit(event) {
+  async handleAdd(event) {
     event.preventDefault();
     try {
-      const result = await fetch('/api/todos', {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(this.state)
-      });
-      const newTodo = await result.json();
+      const newTodo = await httpPost('todos', this.state);
       this.props.onAdded(newTodo);
       this.setState({ title: '' });
     } catch (e) {
@@ -47,7 +40,7 @@ class TodoAdd extends React.Component<TodoAddProps, Todo> {
 
   async handleReset() {
     try {
-      await fetch('api/todos/reset');
+      await httpGet('todos/reset');
       this.props.onAdded();
     } catch (e) {
       // todo - error alert
@@ -58,7 +51,7 @@ class TodoAdd extends React.Component<TodoAddProps, Todo> {
   render() {
     return (
       <div className="todo-container">
-        <Form onSubmit={this.handleSubmit}>
+        <Form onSubmit={this.handleAdd}>
           <h6>Create a Todo</h6>
           <Form.Group controlId="title">
             <Form.Control type="text"
@@ -73,7 +66,7 @@ class TodoAdd extends React.Component<TodoAddProps, Todo> {
                   type="submit">
             Add
           </Button>
-          <Button variant="secondary"
+          <Button variant="outline-secondary"
                   id="reset-todos"
                   onClick={this.handleReset}
                   type="button">
