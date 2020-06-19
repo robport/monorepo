@@ -2,6 +2,7 @@
   <dictionary name="rober">
     <words>
       <w>navbar</w>
+      <w>websockets</w>
     </words>
   </dictionary>
 </component>

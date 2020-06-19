@@ -25,6 +25,9 @@ const TodoAdd = (props: TodoAddProps) => {
 
   const handleAdd = async (event) => {
     event.preventDefault();
+    if ( !todo.title ) {
+      return;
+    }
     try {
       removeError();
       const newTodo = await httpPost('todos', todo);

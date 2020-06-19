@@ -12,6 +12,7 @@ import Login from './components/auth/login';
 import ErrorProvider from './common/error-provider';
 import ErrorBar from './components/error-bar/error-bar';
 import useErrorContext from './common/use-error-context';
+import WebSockets from './components/websockets/webSockets';
 
 library.add(faTrash);
 
@@ -49,6 +50,9 @@ const App = () => {
               <LinkContainer to="/animate">
                 <Nav.Link>Animate</Nav.Link>
               </LinkContainer>
+              <LinkContainer to="/websockets">
+                <Nav.Link>Websockets</Nav.Link>
+              </LinkContainer>
             </Nav>
             <Nav>
               {
@@ -70,6 +74,9 @@ const App = () => {
         <Switch>
           <Route path="/animate">
             <AlertAnimation/>
+          </Route>
+          <Route path="/websockets">
+            <WebSockets/>
           </Route>
           <Route path="/">
             <TodoList/>

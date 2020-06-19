@@ -1,14 +1,13 @@
 import { Module } from '@nestjs/common';
-
-import { AppController } from './app.controller';
-import { TodoController } from '../todos/todo.controller';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
-import { TodosService } from '../todos/todos.service';
 import { environment } from '../environments/environment';
-import { TodosMariaDbService } from '../todos/todos.mariadb.service';
+import { EventsGateway } from './events.gateway';
+import { TodoController } from '../todos/todo.controller';
 import { MariaDbService } from './maria-db.service';
 import { AuthModule } from '../auth/auth.module';
+import { TodosService } from '../todos/todos.service';
+import { TodosMariaDbService } from '../todos/todos.mariadb.service';
 
 const imports: any[] = [
   AuthModule
@@ -24,16 +23,13 @@ if (environment.production) {
 @Module({
   imports: imports,
   controllers: [
-    AppController,
     TodoController
   ],
   providers: [
+    EventsGateway,
     MariaDbService,
     { provide: TodosService, useClass: TodosMariaDbService }
   ]
 })
 export class AppModule {
-  // configure(consumer: MiddlewareConsumer): any {
-  //   consumer.apply(AuthenticationMiddleware).forRoutes('todos')
-  // }
 }
