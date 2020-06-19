@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { Todo } from '@monorepo/data';
@@ -9,73 +9,64 @@ interface TodoAddProps {
   onAdded: (todo?: Todo) => void;
 }
 
-class TodoAdd extends React.Component<TodoAddProps, Todo> {
-  state: Todo = {
+const TodoAdd = (props: TodoAddProps) => {
+  const [todo, setTodo] = useState<Todo>({
     title: ''
-  };
+  });
 
-  constructor(props: TodoAddProps) {
-    super(props);
-    this.handleChange = this.handleChange.bind(this);
-    this.handleAdd = this.handleAdd.bind(this);
-    this.handleReset = this.handleReset.bind(this);
-  }
-
-  handleChange(event) {
-    this.setState({
+  const handleChange = (event) => {
+    setTodo({
       title: event.target.value
     });
-  }
+  };
 
-  async handleAdd(event) {
+  const handleAdd = async (event) => {
     event.preventDefault();
     try {
-      const newTodo = await httpPost('todos', this.state);
-      this.props.onAdded(newTodo);
-      this.setState({ title: '' });
+      const newTodo = await httpPost('todos', todo);
+      props.onAdded(newTodo);
+      setTodo({ title: '' });
     } catch (e) {
       console.error(e);
     }
-  }
+  };
 
-  async handleReset() {
+  const handleReset = async () => {
     try {
       await httpGet('todos/reset');
-      this.props.onAdded();
+      props.onAdded();
     } catch (e) {
       // todo - error alert
       console.error(e);
     }
-  }
+  };
 
-  render() {
-    return (
-      <div className="todo-container">
-        <Form onSubmit={this.handleAdd}>
-          <h6>Create a Todo</h6>
-          <Form.Group controlId="title">
-            <Form.Control type="text"
-                          value={this.state.title}
-                          onChange={this.handleChange}
-                          placeholder="Title"/>
-          </Form.Group>
+  return (
+    <div className="todo-container">
+      <Form onSubmit={handleAdd}>
+        <h6>Create a Todo</h6>
+        <Form.Group controlId="title">
+          <Form.Control type="text"
+                        value={todo.title}
+                        onChange={handleChange}
+                        placeholder="Title"/>
+        </Form.Group>
 
-          <Button variant="primary"
-                  id="add-todo"
-                  className="todo-button"
-                  type="submit">
-            Add
-          </Button>
-          <Button variant="outline-secondary"
-                  id="reset-todos"
-                  onClick={this.handleReset}
-                  type="button">
-            Reset
-          </Button>
-        </Form>
-      </div>
-    );
-  }
-}
+        <Button variant="primary"
+                id="add-todo"
+                className="todo-button"
+                type="submit">
+          Add
+        </Button>
+        <Button variant="outline-secondary"
+                id="reset-todos"
+                onClick={handleReset}
+                type="button">
+          Reset
+        </Button>
+      </Form>
+    </div>
+  );
+};
 
 export default TodoAdd;
