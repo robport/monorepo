@@ -12,7 +12,7 @@ import Login from './components/auth/login';
 import ErrorProvider from './common/error-provider';
 import ErrorBar from './components/error-bar/error-bar';
 import useErrorContext from './common/use-error-context';
-import WebSockets from './components/websockets/webSockets';
+import Websockets from './components/websockets/websockets';
 
 library.add(faTrash);
 
@@ -76,7 +76,7 @@ const App = () => {
             <AlertAnimation/>
           </Route>
           <Route path="/websockets">
-            <WebSockets/>
+            <Websockets/>
           </Route>
           <Route path="/">
             <TodoList/>

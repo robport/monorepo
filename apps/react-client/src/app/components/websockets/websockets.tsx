@@ -13,7 +13,7 @@ export class Message {
   }
 }
 
-const WebSockets = (props: any) => {
+const Websockets = (props: any) => {
 
   const [messages, setMessages] = useState([]);
   const [status, setStatus] = useState('New');
@@ -67,4 +67,4 @@ const WebSockets = (props: any) => {
   );
 };
 
-export default WebSockets;
+export default Websockets;
