@@ -4,18 +4,24 @@ import { Todo } from '@monorepo/data';
 import './todo.css';
 import TodoAdd from './todo-add';
 import { httpDeleteOne, httpGet } from '../../common/http';
+import useErrorContext from '../../common/use-error-context';
 
 const TodoList = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
+  const { addError, removeError } = useErrorContext();
 
   const getAllTodos = () => {
-    httpGet('todos').then(setTodos);
+    httpGet('todos')
+      .catch(e => addError(e.message))
+      .then(setTodos);
   };
 
   const onDelete = (id: number) => {
-    httpDeleteOne('todos', id).then(getAllTodos);
+    removeError();
+    httpDeleteOne('todos', id)
+      .catch(e => addError(e.message))
+      .then(getAllTodos);
   };
-
 
   useEffect(getAllTodos, []);
 

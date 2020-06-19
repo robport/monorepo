@@ -9,7 +9,9 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { httpLogout, isLoggedIn } from './common/http';
 import Login from './components/auth/login';
-import AlertBar from './components/alert/alert-bar';
+import ErrorProvider from './common/error-provider';
+import ErrorBar from './components/error-bar/error-bar';
+import useErrorContext from './common/use-error-context';
 
 library.add(faTrash);
 
@@ -17,55 +19,65 @@ library.add(faTrash);
 const App = () => {
   const [showLogin, setShowLogin] = useState(false);
   const [, setState] = useState();
+  const { addError, removeError } = useErrorContext();
 
   const handleClose = () => setShowLogin(false);
   const handleShow = () => setShowLogin(true);
   const handleLogout = async () => {
-    await httpLogout();
+    try {
+      removeError();
+      await httpLogout();
+    } catch (e) {
+      addError(e);
+    }
     setState({});
   };
 
   return (
-    <Router>
-      <Navbar bg="light" expand="sm">
-        <LinkContainer to="/">
-          <Navbar.Brand>Porter</Navbar.Brand>
-        </LinkContainer>
-        <Navbar.Toggle aria-controls="basic-navbar-nav"/>
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="mr-auto">
-            <LinkContainer to="/">
-              <Nav.Link>Todos</Nav.Link>
-            </LinkContainer>
-            <LinkContainer to="/animate">
-              <Nav.Link>Animate</Nav.Link>
-            </LinkContainer>
-          </Nav>
-          <Nav>
-            {
-              isLoggedIn() &&
-              <Nav.Link id="logout" onClick={handleLogout}>Logout</Nav.Link>
-            }
-            {
-              !isLoggedIn() &&
-              <Nav.Link id="openLogin" onClick={handleShow}>Login</Nav.Link>
-            }
-          </Nav>
-        </Navbar.Collapse>
-      </Navbar>
-      <Login show={showLogin} onClose={handleClose}/>
-      <AlertBar/>
+    <ErrorProvider>
+      <Router>
+        <Navbar bg="light" expand="sm">
+          <LinkContainer to="/">
+            <Navbar.Brand>Porter</Navbar.Brand>
+          </LinkContainer>
+          <Navbar.Toggle aria-controls="basic-navbar-nav"/>
+          <Navbar.Collapse id="basic-navbar-nav">
+            <Nav className="mr-auto">
+              <LinkContainer to="/">
+                <Nav.Link>Todos</Nav.Link>
+              </LinkContainer>
+              <LinkContainer to="/animate">
+                <Nav.Link>Animate</Nav.Link>
+              </LinkContainer>
+            </Nav>
+            <Nav>
+              {
+                isLoggedIn() &&
+                <Nav.Link id="logout-link"
+                          onClick={handleLogout}>Logout</Nav.Link>
+              }
+              {
+                !isLoggedIn() &&
+                <Nav.Link id="openLogin"
+                          onClick={handleShow}>Login</Nav.Link>
+              }
+            </Nav>
+          </Navbar.Collapse>
+        </Navbar>
+        <Login show={showLogin} onClose={handleClose}/>
+        <ErrorBar/>
 
-      <Switch>
-        <Route path="/animate">
-          <AlertAnimation/>
-        </Route>
-        <Route path="/">
-          <TodoList/>
-        </Route>
+        <Switch>
+          <Route path="/animate">
+            <AlertAnimation/>
+          </Route>
+          <Route path="/">
+            <TodoList/>
+          </Route>
 
-      </Switch>
-    </Router>
+        </Switch>
+      </Router>
+    </ErrorProvider>
 
   );
 };

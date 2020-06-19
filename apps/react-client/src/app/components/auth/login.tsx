@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { httpLogin, httpLogout } from '../../common/http';
+import useErrorContext from '../../common/use-error-context';
 
 export interface LoginProps {
   show: boolean,
@@ -9,10 +10,18 @@ export interface LoginProps {
 }
 
 const Login = (props: LoginProps) => {
+  const { removeError } = useErrorContext();
+  const [ loginError, setLoginError ] = useState('')
 
   const login = async () => {
-    await httpLogin('john', 'changeme');
-    props.onClose();
+    removeError();
+    try {
+      await httpLogin('john', 'changeme');
+      props.onClose();
+      setLoginError('')
+    } catch ( e ) {
+      setLoginError(e.message)
+    }
   };
 
   return (
@@ -27,8 +36,9 @@ const Login = (props: LoginProps) => {
       </Modal.Header>
       <Modal.Body>
         <p>
-          Replace with Form Data
+          Login as John
         </p>
+        { loginError && <p>{loginError}</p> }
       </Modal.Body>
       <Modal.Footer>
         <Button variant="outline-secondary" onClick={() => props.onClose()}>Close</Button>

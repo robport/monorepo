@@ -4,6 +4,7 @@ import Form from 'react-bootstrap/Form';
 import { Todo } from '@monorepo/data';
 import './todo.css';
 import { httpGet, httpPost } from '../../common/http';
+import useErrorContext from '../../common/use-error-context';
 
 interface TodoAddProps {
   onAdded: (todo?: Todo) => void;
@@ -14,6 +15,8 @@ const TodoAdd = (props: TodoAddProps) => {
     title: ''
   });
 
+  const { addError, removeError } = useErrorContext();
+
   const handleChange = (event) => {
     setTodo({
       title: event.target.value
@@ -23,20 +26,23 @@ const TodoAdd = (props: TodoAddProps) => {
   const handleAdd = async (event) => {
     event.preventDefault();
     try {
+      removeError();
       const newTodo = await httpPost('todos', todo);
       props.onAdded(newTodo);
       setTodo({ title: '' });
     } catch (e) {
+      addError(e.message);
       console.error(e);
     }
   };
 
   const handleReset = async () => {
     try {
+      removeError();
       await httpGet('todos/reset');
       props.onAdded();
     } catch (e) {
-      // todo - error alert
+      addError(e.message);
       console.error(e);
     }
   };
