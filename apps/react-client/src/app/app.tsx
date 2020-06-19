@@ -9,6 +9,7 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { httpLogout, isLoggedIn } from './common/http';
 import Login from './components/auth/login';
+import AlertBar from './components/alert/alert-bar';
 
 library.add(faTrash);
 
@@ -53,6 +54,7 @@ const App = () => {
         </Navbar.Collapse>
       </Navbar>
       <Login show={showLogin} onClose={handleClose}/>
+      <AlertBar/>
 
       <Switch>
         <Route path="/animate">

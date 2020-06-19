@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
+import { MariaDbService } from '../app/maria-db.service';
 
 export interface User {
-  userId: number;
+  id: number;
   username: string;
   password: string;
   loggedIn: boolean;
@@ -14,19 +15,19 @@ export class UsersService {
   constructor() {
     this.users = [
       {
-        userId: 1,
+        id: 1,
         username: 'john',
         password: 'changeme',
         loggedIn: false
       },
       {
-        userId: 2,
+        id: 2,
         username: 'chris',
         password: 'secret',
         loggedIn: false
       },
       {
-        userId: 3,
+        id: 3,
         username: 'maria',
         password: 'guess',
         loggedIn: false
@@ -36,6 +37,8 @@ export class UsersService {
 
   async findOne(username: string): Promise<User | undefined> {
     return this.users.find(user => user.username === username);
+    // let conn = await this.db.getConnection();
+    // conn.query('SELECT ')
   }
 
   async setLoggedIn(username: string) {
