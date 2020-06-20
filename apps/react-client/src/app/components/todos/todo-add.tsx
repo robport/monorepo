@@ -2,13 +2,17 @@ import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { Todo } from '@monorepo/data';
-import './todo.css';
 import { httpGet, httpPost } from '../../common/http';
 import useErrorContext from '../../common/use-error-context';
+import styled from 'styled-components';
 
 interface TodoAddProps {
   onAdded: (todo?: Todo) => void;
 }
+
+const TodoButton = styled(Button)`
+  margin-right: 10px;
+`;
 
 const TodoAdd = (props: TodoAddProps) => {
   const [todo, setTodo] = useState<Todo>({
@@ -25,7 +29,7 @@ const TodoAdd = (props: TodoAddProps) => {
 
   const handleAdd = async (event) => {
     event.preventDefault();
-    if ( !todo.title ) {
+    if (!todo.title) {
       return;
     }
     try {
@@ -51,30 +55,27 @@ const TodoAdd = (props: TodoAddProps) => {
   };
 
   return (
-    <div className="todo-container">
-      <Form onSubmit={handleAdd}>
-        <h6>Create a Todo</h6>
-        <Form.Group controlId="title">
-          <Form.Control type="text"
-                        value={todo.title}
-                        onChange={handleChange}
-                        placeholder="Title"/>
-        </Form.Group>
+    <Form onSubmit={handleAdd}>
+      <h6>Create a Todo</h6>
+      <Form.Group controlId="title">
+        <Form.Control type="text"
+                      value={todo.title}
+                      onChange={handleChange}
+                      placeholder="Title"/>
+      </Form.Group>
 
-        <Button variant="primary"
-                id="add-todo"
-                className="todo-button"
-                type="submit">
-          Add
-        </Button>
-        <Button variant="outline-secondary"
-                id="reset-todos"
-                onClick={handleReset}
-                type="button">
-          Reset
-        </Button>
-      </Form>
-    </div>
+      <TodoButton variant="primary"
+              id="add-todo"
+              type="submit">
+        Add
+      </TodoButton>
+      <TodoButton variant="outline-secondary"
+              id="reset-todos"
+              onClick={handleReset}
+              type="button">
+        Reset
+      </TodoButton>
+    </Form>
   );
 };
 

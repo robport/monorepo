@@ -14,7 +14,7 @@ const AlertAnimation = () => {
       {showButton && (
         <Button
           onClick={() => setShowMessage(true)}>
-          Show Message
+          Show Animation
         </Button>
       )}
       <CSSTransition
@@ -29,11 +29,11 @@ const AlertAnimation = () => {
           dismissible
           onClose={() => setShowMessage(false)}>
           <Alert.Heading>
-            Animated alert message
+            Animation
           </Alert.Heading>
           <p>
-            This alert message is being transitioned in and
-            out of the DOM.
+            This component uses CSSTransition to add and remove the component
+            from the DOM.
           </p>
           <Button onClick={() => setShowMessage(false)}>
             Close

@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Todos } from '@monorepo/ui';
 import { Todo } from '@monorepo/data';
-import './todo.css';
 import TodoAdd from './todo-add';
 import { httpDeleteOne, httpGet } from '../../common/http';
 import useErrorContext from '../../common/use-error-context';
+import { Wrapper } from '../../common/atom';
 
 const TodoList = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
@@ -26,10 +26,10 @@ const TodoList = () => {
   useEffect(getAllTodos, []);
 
   return (
-    <div className="todo-container">
+    <Wrapper>
       <Todos todos={todos} onDelete={onDelete}/>
       <TodoAdd onAdded={getAllTodos}/>
-    </div>
+    </Wrapper>
   );
 };
 
