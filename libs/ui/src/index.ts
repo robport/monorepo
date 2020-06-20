@@ -1,2 +1,2 @@
-export * from './lib/todos/todos';
+export * from './lib/todos/todosTable';
 export * from './lib/ui';

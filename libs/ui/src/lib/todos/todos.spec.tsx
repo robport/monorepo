@@ -1,11 +1,19 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 
-import Todos from './todos';
+import TodosTable from './todosTable';
+import { Todo } from '@monorepo/data';
 
 describe(' Todos', () => {
   it('should render successfully', () => {
-    const { baseElement } = render(<Todos />);
+    const data: Todo[] = [
+      { id: 1, title: 'Hello World' }
+    ];
+
+    const onDelete = (id: number) => {
+    };
+
+    const { baseElement } = render(<TodosTable onDelete={onDelete} todos={data}/>);
     expect(baseElement).toBeTruthy();
   });
 });

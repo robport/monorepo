@@ -3,7 +3,7 @@ import { Todo } from '@monorepo/data';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Table from 'react-bootstrap/Table';
 
-export const Todos = (props: {
+export const TodosTable = (props: {
   todos: Todo[],
   onDelete: (id: number) => void
 }) => {
@@ -36,4 +36,4 @@ export const Todos = (props: {
   );
 };
 
-export default Todos;
+export default TodosTable;
