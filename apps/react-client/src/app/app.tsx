@@ -12,6 +12,7 @@ import Login from './components/auth/login';
 import ErrorProvider from './common/error-provider';
 import ErrorBar from './components/error-bar/error-bar';
 import useErrorContext from './common/use-error-context';
+import Tools from './components/tools/tools';
 import Websockets from './components/websockets/websockets';
 
 library.add(faTrash);
@@ -45,6 +46,9 @@ const App = () => {
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="mr-auto">
               <LinkContainer to="/">
+                <Nav.Link>Tools</Nav.Link>
+              </LinkContainer>
+              <LinkContainer to="/todos">
                 <Nav.Link>Todos</Nav.Link>
               </LinkContainer>
               <LinkContainer to="/animate">
@@ -76,10 +80,13 @@ const App = () => {
             <AlertAnimation/>
           </Route>
           <Route path="/websockets">
-            <Websockets/>
+            <Websockets />
+          </Route>
+          <Route path="/todos">
+            <TodoList/>
           </Route>
           <Route path="/">
-            <TodoList/>
+            <Tools/>
           </Route>
 
         </Switch>
