@@ -24,6 +24,11 @@ const Login = (props: LoginProps) => {
     }
   };
 
+  const handleClose = () => {
+    setLoginError('');
+    props.onClose();
+  }
+
   return (
     <Modal show={props.show}
            size="lg"
@@ -41,7 +46,7 @@ const Login = (props: LoginProps) => {
         { loginError && <p>{loginError}</p> }
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="outline-secondary" onClick={() => props.onClose()}>Close</Button>
+        <Button variant="outline-secondary" onClick={handleClose}>Close</Button>
         <Button id="login-button" onClick={login}>Login</Button>
       </Modal.Footer>
     </Modal>

@@ -7,6 +7,7 @@ import {
   NotFoundException,
   Param,
   Post,
+  Request,
   UseGuards
 } from '@nestjs/common';
 import { Todo } from '@monorepo/data';
@@ -27,11 +28,11 @@ export class TodoController {
 
   @UseGuards(JwtAuthGuard)
   @Post()
-  create(@Body() todo: Todo) {
+  create(@Body() todo: Todo, @Request() req) {
     if (!todo || !todo.title) {
       throw new BadRequestException('Expected todo in body');
     }
-
+    // todo - add user id to insert
     return this.todosService.addTodo(todo);
   }
 

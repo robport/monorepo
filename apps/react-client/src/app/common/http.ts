@@ -1,12 +1,17 @@
+import { AuthError } from '@monorepo/data';
+
 const TOKEN_KEY = 'monorepo-token';
 
 const headers = () => {
   const token = localStorage.getItem(TOKEN_KEY);
-  return {
+  let headers = {
     'Accept': 'application/json',
-    'Content-Type': 'application/json',
-    'Authorization': `Bearer ${token}`
+    'Content-Type': 'application/json'
   };
+  if (token) {
+    headers['Authorization'] = `Bearer ${token}`;
+  }
+  return headers;
 };
 
 const uri = (resource: string) => `/api/${resource}`;
@@ -38,14 +43,11 @@ export const httpGetOne = async (resource: string, id: number)
 
 export const httpGet = async (resource: string)
   : Promise<any> => {
-  const result = await fetch(uri(resource), {
+  const response = await fetch(uri(resource), {
     headers: headers(),
     method: 'GET'
   });
-  if (result.ok) {
-    return result.json();
-  }
-  throw new Error(result.statusText);
+  return handleResponse(response);
 };
 
 export const httpDeleteOne = async (resource: string, id: number) => {
@@ -54,24 +56,36 @@ export const httpDeleteOne = async (resource: string, id: number) => {
 
 export const httpDelete = async (resource: string)
   : Promise<any> => {
-  const result = await fetch(uri(resource), {
+  const response = await fetch(uri(resource), {
     headers: headers(),
     method: 'DELETE'
   });
-  if (!result.ok) {
-    throw new Error(result.statusText);
-  }
+  return await handleResponse(response);
 };
 
 export const httpPost = async (resource: string, data: any)
   : Promise<any> => {
-  const result = await fetch(uri(resource), {
+  const response = await fetch(uri(resource), {
     headers: headers(),
     method: 'POST',
     body: JSON.stringify(data)
   });
-  if (result.ok) {
-    return result.json();
+  return await handleResponse(response);
+};
+
+const handleResponse = async (response: Response) => {
+  if (response.ok) {
+    return response.json();
+  } else {
+    const errorBody = await response.json();
+    if (errorBody) {
+      const authError: AuthError = errorBody.message;
+      if ([AuthError.INVALID_TOKEN,
+        AuthError.SESSION_EXPIRED].includes(authError)) {
+        localStorage.removeItem(TOKEN_KEY);
+      }
+      throw new Error(errorBody.message);
+    }
+    throw new Error(response.statusText);
   }
-  throw new Error(result.statusText);
 };
