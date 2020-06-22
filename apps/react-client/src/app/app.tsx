@@ -14,9 +14,9 @@ import ErrorBar from './components/error-bar/error-bar';
 import useErrorContext from './common/use-error-context';
 import Tools from './components/tools/tools';
 import Websockets from './components/websockets/websockets';
+import FourOFour from './components/four-o-four/four-o-four';
 
 library.add(faTrash);
-
 
 const App = () => {
   const [showLogin, setShowLogin] = useState(false);
@@ -76,19 +76,13 @@ const App = () => {
         <ErrorBar/>
 
         <Switch>
-          <Route path="/animate">
-            <AlertAnimation/>
+          <Route path="/animate" component={AlertAnimation}/>
+          <Route path="/websockets" component={Websockets}/>
+          <Route path="/todos" component={TodoList}/>
+          <Route exact path="/" component={Tools} />
+          <Route >
+            <FourOFour location={location} />
           </Route>
-          <Route path="/websockets">
-            <Websockets />
-          </Route>
-          <Route path="/todos">
-            <TodoList/>
-          </Route>
-          <Route path="/">
-            <Tools/>
-          </Route>
-
         </Switch>
       </Router>
     </ErrorProvider>

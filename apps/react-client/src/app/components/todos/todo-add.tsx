@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { Todo } from '@monorepo/data';
-import { httpGet, httpPost } from '../../common/http';
+import { httpGet, httpPost, isLoggedIn } from '../../common/http';
 import useErrorContext from '../../common/use-error-context';
 import styled from 'styled-components';
 
@@ -54,6 +54,10 @@ const TodoAdd = (props: TodoAddProps) => {
     }
   };
 
+  const isAddDisabled = () => {
+    return !isLoggedIn() || !todo.title ;
+  };
+
   return (
     <Form onSubmit={handleAdd}>
       <h6>Create a Todo</h6>
@@ -65,14 +69,16 @@ const TodoAdd = (props: TodoAddProps) => {
       </Form.Group>
 
       <TodoButton variant="primary"
-              id="add-todo"
-              type="submit">
+                  id="add-todo"
+                  disabled={isAddDisabled()}
+                  type="submit">
         Add
       </TodoButton>
       <TodoButton variant="outline-secondary"
-              id="reset-todos"
-              onClick={handleReset}
-              type="button">
+                  id="reset-todos"
+                  disabled={!isLoggedIn()}
+                  onClick={handleReset}
+                  type="button">
         Reset
       </TodoButton>
     </Form>

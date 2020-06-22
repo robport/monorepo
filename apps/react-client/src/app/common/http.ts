@@ -75,7 +75,10 @@ export const httpPost = async (resource: string, data: any)
 
 const handleResponse = async (response: Response) => {
   if (response.ok) {
-    return response.json();
+    const contentType = response.headers.get("content-type");
+    if (contentType && contentType.indexOf("application/json") !== -1) {
+      return response.json();
+    }
   } else {
     const errorBody = await response.json();
     if (errorBody) {
