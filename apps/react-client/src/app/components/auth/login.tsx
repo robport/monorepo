@@ -30,7 +30,7 @@ const Login = (props: LoginProps) => {
   }
 
   return (
-    <Modal show={props.show}
+    <Modal show={props.show} onHide={handleClose}
            size="lg"
            aria-labelledby="contained-modal-title-vcenter"
            centered>
