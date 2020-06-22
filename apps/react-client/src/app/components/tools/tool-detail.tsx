@@ -19,7 +19,7 @@ const ToolDetail = (props: { tool: Tool }) => {
   return (
     <div>
       {tool.imageUrl &&
-      <img width="100" height="100" src={tool.imageUrl}/>
+      <img width="100" height="100" src={tool.imageUrl} alt="logo image"/>
       }
       <Label>Name</Label>
       <Value>{tool.name}</Value>
@@ -36,6 +36,14 @@ const ToolDetail = (props: { tool: Tool }) => {
       <Value><a href={tool.website}>{tool.website}</a></Value>
       <Label>Description</Label>
       <Value>{tool.description}</Value>
+      <Label>Benefits</Label>
+      <ul>
+        {
+          tool.benefits.map((category, i) => (
+            <li key={i}>{category}</li>
+          ))
+        }
+      </ul>
     </div>
   );
 
