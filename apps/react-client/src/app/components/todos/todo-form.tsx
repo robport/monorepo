@@ -14,7 +14,7 @@ const TodoButton = styled(Button)`
   margin-right: 10px;
 `;
 
-const TodoAdd = (props: TodoAddProps) => {
+const TodoForm = (props: TodoAddProps) => {
   const [todo, setTodo] = useState<Todo>({
     title: ''
   });
@@ -85,4 +85,4 @@ const TodoAdd = (props: TodoAddProps) => {
   );
 };
 
-export default TodoAdd;
+export default TodoForm;

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { TodosTable } from '@monorepo/ui';
 import { Todo } from '@monorepo/data';
-import TodoAdd from './todo-add';
+import TodoForm from './todo-form';
 import { httpDeleteOne, httpGet } from '../../common/http';
 import useErrorContext from '../../common/use-error-context';
 import { Wrapper } from '../../common/atom';
@@ -28,7 +28,7 @@ const TodoList = () => {
   return (
     <Wrapper>
       <TodosTable todos={todos} onDelete={onDelete}/>
-      <TodoAdd onAdded={getAllTodos}/>
+      <TodoForm onAdded={getAllTodos}/>
     </Wrapper>
   );
 };
