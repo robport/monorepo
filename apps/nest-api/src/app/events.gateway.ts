@@ -40,7 +40,7 @@ export class EventsGateway
     return {
       event: 'events',
       data: {
-        data: 'Thanks'
+        data: 'Pong'
       }
     };
   }

@@ -61,7 +61,7 @@ const Websockets = (props: any) => {
   }, []);
 
   const sendMessage = () => {
-    webSocket.current.emit('events', { data: 'Hello' }, data => {
+    webSocket.current.emit('events', { data: 'Ping' }, data => {
       setMessages(prev => [...prev, new Message(data.data)]);
     });
   };
@@ -77,7 +77,7 @@ const Websockets = (props: any) => {
         ))
       }
       <Button type="button" onClick={sendMessage}>
-        SEND
+        PING
       </Button>
     </Wrapper>
   );
