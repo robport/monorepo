@@ -15,6 +15,8 @@ import useErrorContext from './common/use-error-context';
 import Tools from './components/tools/tools';
 import Websockets from './components/websockets/websockets';
 import FourOFour from './components/four-o-four/four-o-four';
+import Home from './components/home/home';
+import About from './components/about/about';
 
 library.add(faTrash);
 
@@ -38,21 +40,24 @@ const App = () => {
   return (
     <ErrorProvider>
       <Router>
-        <Navbar bg="light" expand="sm">
+        <Navbar fixed="top" bg="light" expand="sm">
           <LinkContainer to="/">
-            <Navbar.Brand>Porter</Navbar.Brand>
+            <Navbar.Brand>PorterWeb</Navbar.Brand>
           </LinkContainer>
           <Navbar.Toggle aria-controls="basic-navbar-nav"/>
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="mr-auto">
-              <LinkContainer to="/">
-                <Nav.Link>Tools</Nav.Link>
+              <LinkContainer to="/home">
+                <Nav.Link>Home</Nav.Link>
+              </LinkContainer>
+              <LinkContainer to="/about">
+                <Nav.Link>About</Nav.Link>
+              </LinkContainer>
+              <LinkContainer to="/stack">
+                <Nav.Link>Stack</Nav.Link>
               </LinkContainer>
               <LinkContainer to="/todos">
                 <Nav.Link>Todos</Nav.Link>
-              </LinkContainer>
-              <LinkContainer to="/animate">
-                <Nav.Link>Animate</Nav.Link>
               </LinkContainer>
               <LinkContainer to="/websockets">
                 <Nav.Link>Websockets</Nav.Link>
@@ -76,10 +81,12 @@ const App = () => {
         <ErrorBar/>
 
         <Switch>
-          <Route path="/animate" component={AlertAnimation}/>
           <Route path="/websockets" component={Websockets}/>
           <Route path="/todos" component={TodoList}/>
-          <Route exact path="/" component={Tools} />
+          <Route path="/stack" component={Tools}/>
+          <Route path="/about" component={About}/>
+          <Route path="/home" component={Home}/>
+          <Route exact path="/" component={Home} />
           <Route >
             <FourOFour location={location} />
           </Route>

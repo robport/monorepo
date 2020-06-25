@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Tool } from './tool.model';
 import styled from 'styled-components';
+import gsap from "gsap";
 
 const Label = styled.div`
   font-size: 0.8em;
@@ -16,8 +17,15 @@ const ToolDetail = (props: { tool: Tool }) => {
 
   const tool = props.tool;
 
+  useEffect(() => {
+    gsap.from('#todo-detail', {
+      duration: 0.5,
+      opacity: 0,
+    });
+  } )
+
   return (
-    <div>
+    <div id='todo-detail'>
       {tool.imageUrl &&
       <img width="100" height="100" src={tool.imageUrl} alt="logo image"/>
       }
