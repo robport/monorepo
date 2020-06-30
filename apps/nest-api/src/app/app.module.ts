@@ -8,6 +8,7 @@ import { MariaDbService } from './maria-db.service';
 import { AuthModule } from '../auth/auth.module';
 import { TodosService } from '../todos/todos.service';
 import { TodosMariaDbService } from '../todos/todos.mariadb.service';
+import { ToolsController } from '../tools/toolsController';
 
 const imports: any[] = [
   AuthModule
@@ -23,7 +24,8 @@ if (environment.production) {
 @Module({
   imports: imports,
   controllers: [
-    TodoController
+    TodoController,
+    ToolsController
   ],
   providers: [
     EventsGateway,
