@@ -31,6 +31,17 @@ export const httpLogin = async (username: string, password: string) => {
   localStorage.setItem(TOKEN_KEY, token.access_token);
 };
 
+export const httpRegister = async (username: string, password: string) => {
+  const token = await httpPost('auth/register', {
+    email: username,
+    password: password
+  });
+  if (!token.access_token) {
+    throw new Error('No token');
+  }
+  localStorage.setItem(TOKEN_KEY, token.access_token);
+};
+
 export const httpLogout = async () => {
   await httpGet('auth/logout');
   localStorage.removeItem(TOKEN_KEY);

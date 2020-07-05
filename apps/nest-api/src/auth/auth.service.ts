@@ -32,6 +32,15 @@ export class AuthService {
     };
   }
 
+  async register(user: User) {
+    await this.usersService.create(user.email, user.password );
+    const payload = { username: user.email, sub: user.id };
+    await this.usersService.setLoggedIn(user.email);
+    return {
+      access_token: this.jwtService.sign(payload)
+    };
+  }
+
   async logout(user: any) {
     if (user) {
       await this.usersService.setLoggedOut(user.username);

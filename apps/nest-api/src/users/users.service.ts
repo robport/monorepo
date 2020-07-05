@@ -1,6 +1,6 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { MariaDbService } from '../db/maria-db.service';
-import { User } from '@monorepo/data';
+import { AuthError, User } from '@monorepo/data';
 
 @Injectable()
 export class UsersService {
@@ -24,6 +24,19 @@ export class UsersService {
             FROM users
             WHERE id=${userId}`);
     return result[0];
+  }
+
+  async create(email: string, password: string) {
+    if ( await this.findByEmail(email)) {
+      throw new HttpException(AuthError.EMAIL_ALREADY_REGISTERED, HttpStatus.UNAUTHORIZED);
+    }
+
+    let conn = await this.db.getConnection();
+    const result = await conn.query(
+      `INSERT INTO users ( email, password )
+            VALUES ( ?, ? )`,
+      [ email, password ]
+    )
   }
 
   async setLoggedIn(userId: string) {

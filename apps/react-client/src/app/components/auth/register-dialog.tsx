@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import { httpLogin } from '../../common/http';
+import { httpRegister } from '../../common/http';
 import useErrorContext from '../../common/use-error-context';
 import Form from 'react-bootstrap/Form';
 import * as Yup from 'yup';
@@ -9,14 +9,14 @@ import { useFormik } from 'formik';
 import { AuthError } from '@monorepo/data';
 import AuthErrorFeedback from './auth-error-feedback';
 
-export interface LoginProps {
+export interface RegisterProps {
   show: boolean,
   onClose: () => void,
 }
 
-const LoginDialog = (props: LoginProps) => {
+const RegisterDialog = (props: RegisterProps) => {
   const { removeError } = useErrorContext();
-  const [loginError, setLoginError] = useState<any>({});
+  const [registerError, setRegisterError] = useState<any>({});
 
   const yup = Yup.object({
     email: Yup.string()
@@ -26,41 +26,39 @@ const LoginDialog = (props: LoginProps) => {
       .required('Password is required')
   });
 
-  const login = async (email: string, password: string) => {
+  const register = async (email: string, password: string) => {
     removeError();
     try {
-      await httpLogin(email, password);
+      await httpRegister(email, password);
       props.onClose();
-      setLoginError({  });
+      setRegisterError({});
     } catch (e) {
-      if (e.message === AuthError.INVALID_USER) {
-        setLoginError({email: `User ${email} is not registered` });
-      } else if (e.message === AuthError.INVALID_PASSWORD) {
-        setLoginError({ password: `Incorrect password`});
+      if (e.message === AuthError.EMAIL_ALREADY_REGISTERED) {
+        setRegisterError({ email: `Email is already registered` });
       } else {
-        setLoginError(e.message);
+        setRegisterError({ email: e.message });
       }
     }
   };
 
   const formik = useFormik({
-    initialValues: { email: 'rob@rob.com', password: 'password' },
+    initialValues: { email: '', password: '' },
     validationSchema: yup,
     onSubmit: async (values, { setSubmitting }) => {
-      await login(values.email, values.password);
+      await register(values.email, values.password);
       setSubmitting(false);
     }
   });
 
 
   const handleClose = () => {
-    setLoginError('');
+    setRegisterError('');
     props.onClose();
   };
 
   const handleChange = () => {
-    setLoginError({})
-  }
+    setRegisterError({});
+  };
 
   return (
     <Modal show={props.show}
@@ -69,7 +67,7 @@ const LoginDialog = (props: LoginProps) => {
 
       <Modal.Header closeButton>
         <Modal.Title>
-          Login
+          Register
         </Modal.Title>
       </Modal.Header>
 
@@ -89,7 +87,7 @@ const LoginDialog = (props: LoginProps) => {
             <Form.Control.Feedback type="invalid">
               {formik.errors.email}
             </Form.Control.Feedback>
-            <AuthErrorFeedback>{loginError.email}</AuthErrorFeedback>
+            <AuthErrorFeedback>{registerError.email}</AuthErrorFeedback>
           </Form.Group>
 
           <Form.Group controlId="formPassword">
@@ -103,7 +101,7 @@ const LoginDialog = (props: LoginProps) => {
             <Form.Control.Feedback type="invalid">
               {formik.errors.password}
             </Form.Control.Feedback>
-            <AuthErrorFeedback>{loginError.password}</AuthErrorFeedback>
+            <AuthErrorFeedback>{registerError.password}</AuthErrorFeedback>
           </Form.Group>
 
         </Modal.Body>
@@ -114,8 +112,8 @@ const LoginDialog = (props: LoginProps) => {
                   onClick={handleClose}>Close</Button>
 
           <Button type="submit"
-                  id="login-button"
-                  disabled={!formik.isValid}>Login</Button>
+                  id="register-button"
+                  disabled={!formik.isValid}>Register</Button>
 
         </Modal.Footer>
       </Form>
@@ -123,4 +121,4 @@ const LoginDialog = (props: LoginProps) => {
   );
 };
 
-export default LoginDialog;
+export default RegisterDialog;

@@ -16,16 +16,23 @@ import Websockets from './components/websockets/websockets';
 import FourOFour from './components/four-o-four/four-o-four';
 import Home from './components/home/home';
 import About from './components/about/about';
+import RegisterDialog from './components/auth/register-dialog';
 
 library.add(faTrash);
 
 const App = () => {
   const [showLogin, setShowLogin] = useState(false);
+  const [showRegister, setShowRegister] = useState(false);
   const [, setState] = useState();
   const { addError, removeError } = useErrorContext();
 
-  const handleClose = () => setShowLogin(false);
-  const handleShow = () => setShowLogin(true);
+  const handleClose = () => {
+    setShowRegister(false);
+    setShowLogin(false);
+  };
+  const handleShowLogin = () => setShowLogin(true);
+  const handleShowRegister = () => setShowRegister(true);
+
   const handleLogout = async () => {
     try {
       removeError();
@@ -70,13 +77,17 @@ const App = () => {
               }
               {
                 !isLoggedIn() &&
-                <Nav.Link id="openLogin"
-                          onClick={handleShow}>Login</Nav.Link>
+                <Nav.Link id="loginNav" onClick={handleShowLogin}>Login</Nav.Link>
+              }
+              {
+                !isLoggedIn() &&
+                <Nav.Link id="registerNav" onClick={handleShowRegister}>Register</Nav.Link>
               }
             </Nav>
           </Navbar.Collapse>
         </Navbar>
         <LoginDialog show={showLogin} onClose={handleClose}/>
+        <RegisterDialog show={showRegister} onClose={handleClose}/>
         <ErrorBar/>
 
         <Switch>
