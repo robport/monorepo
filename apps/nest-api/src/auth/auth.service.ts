@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
-import { User, AuthError } from '@monorepo/data';
+import { AuthError, User } from '@monorepo/data';
 
 @Injectable()
 export class AuthService {
@@ -11,12 +11,12 @@ export class AuthService {
   ) {
   }
 
-  async validateUser(email: string, pass: string): Promise<any> {
+  async validateUser(email: string, password: string): Promise<any> {
     const user = await this.usersService.findByEmail(email);
-    if ( !user ) {
+    if (!user) {
       throw new HttpException(AuthError.INVALID_USER, HttpStatus.UNAUTHORIZED);
     }
-    if (user && user.password === pass) {
+    if (user && user.password === password ) {
       const { password, ...result } = user;
       return result;
     } else {
@@ -33,6 +33,8 @@ export class AuthService {
   }
 
   async logout(user: any) {
-    await this.usersService.setLoggedOut(user.username);
+    if (user) {
+      await this.usersService.setLoggedOut(user.username);
+    }
   }
 }

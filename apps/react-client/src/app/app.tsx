@@ -4,11 +4,10 @@ import TodoList from './components/todos/todo-list';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import { LinkContainer } from 'react-router-bootstrap';
-import AlertAnimation from './components/animation/alert';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { httpLogout, isLoggedIn } from './common/http';
-import Login from './components/auth/login';
+import LoginDialog from './components/auth/login-dialog';
 import ErrorProvider from './common/error-provider';
 import ErrorBar from './components/error-bar/error-bar';
 import useErrorContext from './common/use-error-context';
@@ -77,7 +76,7 @@ const App = () => {
             </Nav>
           </Navbar.Collapse>
         </Navbar>
-        <Login show={showLogin} onClose={handleClose}/>
+        <LoginDialog show={showLogin} onClose={handleClose}/>
         <ErrorBar/>
 
         <Switch>
@@ -86,9 +85,9 @@ const App = () => {
           <Route path="/stack" component={Tools}/>
           <Route path="/about" component={About}/>
           <Route path="/home" component={Home}/>
-          <Route exact path="/" component={Home} />
-          <Route >
-            <FourOFour location={location} />
+          <Route exact path="/" component={Home}/>
+          <Route>
+            <FourOFour location={location}/>
           </Route>
         </Switch>
       </Router>

@@ -7,7 +7,7 @@ import HomeCard from './home-card';
 const MainContainer = styled.div`
   display: flex;
   flex-direction: column;
-`
+`;
 
 const CentreColumn = styled.div`
   display: flex;

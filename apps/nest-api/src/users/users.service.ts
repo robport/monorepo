@@ -10,17 +10,17 @@ export class UsersService {
 
   async findByEmail(email: string): Promise<User | undefined> {
     let conn = await this.db.getConnection();
-    const result = conn.query(
-      `SELECT id, email
+    const result = await conn.query(
+      `SELECT id, email, password
             FROM users
-            WHERE email=${email}`);
+            WHERE email='${email}'`);
     return result[0];
   }
 
   async findById(userId: number): Promise<User | undefined> {
     let conn = await this.db.getConnection();
     const result = await conn.query(
-      `SELECT id, email
+      `SELECT id, email, password
             FROM users
             WHERE id=${userId}`);
     return result[0];
