@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { TodosArrayService } from './todos.service';
+import { TodosArrayService } from './todos.array.service';
 
 describe('TodosService', () => {
   let service: TodosArrayService;

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Todo } from '@monorepo/data';
 import { TodosService } from './todos.service';
-import { MariaDbService } from '../app/maria-db.service';
+import { MariaDbService } from '../db/maria-db.service';
 
 @Injectable()
 export class TodosMariaDbService implements TodosService {

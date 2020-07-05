@@ -13,8 +13,7 @@ export class MariaDbService {
       this.logger.log(`Create Connection to Maria DB`);
       this.conn = await createConnection(hostUrl);
       this.logger.log(`Connection created`);
-
-      const x = this.conn.on('error', async err => {
+      this.conn.on('error', async err => {
         this.logger.error(err, 'Error event received');
         this.conn = null;
       });

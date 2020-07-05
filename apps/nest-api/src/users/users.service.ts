@@ -1,53 +1,34 @@
 import { Injectable } from '@nestjs/common';
-import { MariaDbService } from '../app/maria-db.service';
-
-export interface User {
-  id: number;
-  username: string;
-  password: string;
-  loggedIn: boolean;
-}
+import { MariaDbService } from '../db/maria-db.service';
+import { User } from '@monorepo/data';
 
 @Injectable()
 export class UsersService {
-  private readonly users: User[];
 
-  constructor() {
-    this.users = [
-      {
-        id: 1,
-        username: 'john',
-        password: 'changeme',
-        loggedIn: false
-      },
-      {
-        id: 2,
-        username: 'chris',
-        password: 'secret',
-        loggedIn: false
-      },
-      {
-        id: 3,
-        username: 'maria',
-        password: 'guess',
-        loggedIn: false
-      }
-    ];
+  constructor(private db: MariaDbService) {
   }
 
-  async findOne(username: string): Promise<User | undefined> {
-    return this.users.find(user => user.username === username);
-    // let conn = await this.db.getConnection();
-    // conn.query('SELECT ')
+  async findByEmail(email: string): Promise<User | undefined> {
+    let conn = await this.db.getConnection();
+    const result = conn.query(
+      `SELECT id, email
+            FROM users
+            WHERE email=${email}`);
+    return result[0];
   }
 
-  async setLoggedIn(username: string) {
-    const user = await this.findOne(username);
-    user.loggedIn = true;
+  async findById(userId: number): Promise<User | undefined> {
+    let conn = await this.db.getConnection();
+    const result = await conn.query(
+      `SELECT id, email
+            FROM users
+            WHERE id=${userId}`);
+    return result[0];
   }
 
-  async setLoggedOut(username: string) {
-    const user = await this.findOne(username);
-    user.loggedIn = false;
+  async setLoggedIn(userId: string) {
+  }
+
+  async setLoggedOut(userId: string) {
   }
 }

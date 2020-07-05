@@ -4,14 +4,20 @@ import { join } from 'path';
 import { environment } from '../environments/environment';
 import { EventsGateway } from './events.gateway';
 import { TodoController } from '../todos/todo.controller';
-import { MariaDbService } from './maria-db.service';
+import { MariaDbService } from '../db/maria-db.service';
 import { AuthModule } from '../auth/auth.module';
 import { TodosService } from '../todos/todos.service';
 import { TodosMariaDbService } from '../todos/todos.mariadb.service';
 import { ToolsController } from '../tools/toolsController';
+import { AuctionModule } from '../auction/auction.module';
+import { ScheduleModule } from '@nestjs/schedule';
+import { DbModule } from '../db/db.module';
 
 const imports: any[] = [
-  AuthModule
+  DbModule,
+  AuthModule,
+  AuctionModule,
+  ScheduleModule.forRoot()
 ];
 
 if (environment.production) {
@@ -29,8 +35,9 @@ if (environment.production) {
   ],
   providers: [
     EventsGateway,
-    MariaDbService,
     { provide: TodosService, useClass: TodosMariaDbService }
+  ],
+  exports: [
   ]
 })
 export class AppModule {
