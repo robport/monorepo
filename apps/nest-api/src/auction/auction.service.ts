@@ -1,5 +1,4 @@
 import { BadRequestException, Injectable, Logger } from '@nestjs/common';
-import { Subject } from 'rxjs';
 import { ActionResponse, Auction, User } from '@monorepo/data';
 import { addSeconds, isBefore } from 'date-fns';
 import { Interval } from '@nestjs/schedule';
@@ -21,18 +20,19 @@ export class AuctionService {
     const expiredAuctions = await this.auctionDbService.getExpiredAuctions();
 
     for (const auction of expiredAuctions) {
-      this.logger.log(`Expiring auction: ${auction.name}`);
+      this.logger.log(`Expiring auction: ${auction.itemName}`);
       await this.auctionDbService.expireAuction(auction.id);
     }
   }
 
-  async createAuction(name: string,
+  async createAuction(itemName: string,
                 sellerId: number,
                 reservePrice: number,
                 expiryInSeconds: number
   ): Promise<ActionResponse> {
-    const auctionName = name.toLowerCase();
     const expiryDate = addSeconds(new Date(), expiryInSeconds);
+    expiryDate.setSeconds(0);
+    expiryDate.setMilliseconds(0);
     const seller: User = await this.userService.findById(sellerId);
 
     if ( !seller ) {
@@ -43,7 +43,7 @@ export class AuctionService {
     }
 
     const auction: Auction = {
-      name: auctionName,
+      itemName: itemName,
       expiryDate: expiryDate,
       isExpired: false,
       seller: seller,
@@ -54,7 +54,7 @@ export class AuctionService {
 
     return {
       success: true,
-      reason: `Auction ${name} created`,
+      reason: `Auction ${itemName} created`,
       data: result
     };
   }
@@ -128,5 +128,22 @@ export class AuctionService {
     return auction;
   }
 
+  async getAllAuctions(): Promise<Auction[]> {
+    return await this.auctionDbService.getAllAuctions();
+  }
 
+  async deleteAuction(id: number): Promise<ActionResponse> {
+    const auction = await this.getAuction(id);
+    if ( !auction.isExpired ) {
+      return {
+        success: false,
+        reason: 'Cannot delete live Auction'
+      }
+    }
+    await this.auctionDbService.deleteAuction(id);
+    return {
+      success: true,
+      reason: 'Auction deleted'
+    }
+  }
 }

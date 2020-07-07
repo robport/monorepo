@@ -1,11 +1,61 @@
 import { Injectable } from '@nestjs/common';
 import { Auction, Bid } from '@monorepo/data';
 import { MariaDbService } from '../db/maria-db.service';
+import { formatDistanceStrict, formatDistanceToNow, formatDistanceToNowStrict, formatRelative } from 'date-fns';
 
 @Injectable()
 export class AuctionDbService {
 
   constructor(private dbService: MariaDbService) {
+  }
+
+  async deleteAuction(id: number): Promise<void> {
+    const conn = await this.dbService.getConnection();
+    const results = await conn.query(
+      `DELETE FROM auctions
+      WHERE id = ${id}`);
+  }
+
+  async getAllAuctions(): Promise<Auction[]> {
+    const conn = await this.dbService.getConnection();
+    const results = await conn.query(
+      `SELECT auctions.*,
+                   seller.email as sellerEmail,
+                   bids.bid as winningBid,
+                   bids.bidderUserId as winningBidderId,
+                   bidder.email as winningBidderEmail
+      FROM auctions
+      JOIN users AS seller ON auctions.sellerUserId = seller.id
+      LEFT OUTER JOIN bids ON auctions.winningBidId = bids.id
+      LEFT OUTER JOIN users as bidder ON bids.bidderUserId = bidder.id
+      ORDER BY expiryDate DESC`);
+    const auctions = results.splice(0, results.length);
+
+    return auctions.map(auction => {
+      let ret = {
+        ...auction,
+        seller: {
+          id: auction.sellerUserId,
+          email: auction.sellerEmail
+        },
+        winningBid : {
+          id: auction.winningBidId,
+          bid: auction.winningBid,
+          bidder: {
+            id: auction.winningBidderId,
+            email: auction.winningBidderEmail
+          }
+        }
+      };
+
+      delete ret.sellerUserId;
+      delete ret.email;
+      delete ret.winningBidId;
+      delete ret.winningBidderId;
+      delete ret.winningBidderEmail;
+      return ret;
+    });
+
   }
 
   async getExpiredAuctions(): Promise<Auction[]> {
@@ -30,6 +80,10 @@ export class AuctionDbService {
     const conn = await this.dbService.getConnection();
     const auctions = await conn.query(
       `SELECT * FROM auctions WHERE id=${id}`);
+    console.log(auctions.length);
+    if ( auctions.length !== 1 ) {
+      return null;
+    }
     const auction: any = auctions[0];
 
     const result = await conn.query((
@@ -38,6 +92,8 @@ export class AuctionDbService {
        WHERE auctionId=${id}
        AND users.id = bids.bidderUserId`
     ));
+
+    console.log('bids', result.length);
 
     const bids = result.splice(0, result.length);
 
@@ -62,7 +118,7 @@ export class AuctionDbService {
       auction.bidHistory.push(typedBid);
     });
 
-    auction.seller = await conn.query(
+      auction.seller = await conn.query(
       `SELECT id, email
             FROM users
             WHERE id = ${auction.sellerUserId}`);
@@ -76,11 +132,10 @@ export class AuctionDbService {
   async createAuction(auction: Auction): Promise<Auction> {
     const conn = await this.dbService.getConnection();
     const result = await conn.query(
-      `INSERT INTO auctions (name, expiryDate, sellerUserId, reservePrice )
+      `INSERT INTO auctions (itemName, expiryDate, sellerUserId, reservePrice )
                VALUES (?, ?, ?, ?)`,
-      [auction.name, auction.expiryDate, auction.seller.id, auction.reservePrice]
+      [auction.itemName, auction.expiryDate, auction.seller.id, auction.reservePrice]
     );
-    console.log('create auction', JSON.stringify(result, null, 2));
     return {
       ...auction,
       id: result.insertId

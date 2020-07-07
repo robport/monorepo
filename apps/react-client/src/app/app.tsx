@@ -17,6 +17,8 @@ import FourOFour from './components/four-o-four/four-o-four';
 import Home from './components/home/home';
 import About from './components/about/about';
 import RegisterDialog from './components/auth/register-dialog';
+import AuctionList from './components/auction/auction-list';
+import AuctionBids from './components/auction/auction-bids';
 
 library.add(faTrash);
 
@@ -65,6 +67,9 @@ const App = () => {
               <LinkContainer to="/todos">
                 <Nav.Link>Todos</Nav.Link>
               </LinkContainer>
+              <LinkContainer to="/auctions">
+                <Nav.Link>Auctions</Nav.Link>
+              </LinkContainer>
               <LinkContainer to="/websockets">
                 <Nav.Link>Websockets</Nav.Link>
               </LinkContainer>
@@ -92,6 +97,8 @@ const App = () => {
 
         <Switch>
           <Route path="/websockets" component={Websockets}/>
+          <Route path="/auctions/:id" component={AuctionBids}/>
+          <Route path="/auctions" component={AuctionList}/>
           <Route path="/todos" component={TodoList}/>
           <Route path="/stack" component={Tools}/>
           <Route path="/about" component={About}/>

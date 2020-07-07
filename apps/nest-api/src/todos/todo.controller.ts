@@ -60,7 +60,7 @@ export class TodoController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Delete('/delete/:id')
+  @Delete('/:id')
   async delete(@Param('id') idParam: string) {
     const id = Number.parseInt(idParam);
     if (Number.isNaN(id)) {

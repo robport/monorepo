@@ -62,7 +62,7 @@ export const httpGet = async (resource: string)
 };
 
 export const httpDeleteOne = async (resource: string, id: number) => {
-  return httpDelete(`${resource}/delete/${id}`);
+  return httpDelete(`${resource}/${id}`);
 };
 
 export const httpDelete = async (resource: string)

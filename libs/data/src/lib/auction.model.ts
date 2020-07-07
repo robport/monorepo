@@ -4,26 +4,22 @@ import * as Joi from '@hapi/joi';
 export const CreateAuctionSchema = Joi.object({
   auctionName: Joi.string().required().max(50).min(5),
   reservePrice: Joi.number().required(),
-  sellerId: Joi.number().required(),
   expiryInSeconds: Joi.number().required()
 });
 
 export interface CreateAuctionRequest {
   auctionName: string,
   reservePrice: number,
-  sellerId: number,
   expiryInSeconds: number
 }
 
 export const MakeBidSchema = Joi.object({
   bid: Joi.number().required(),
-  bidderUserId: Joi.number().required(),
   auctionId: Joi.number().required()
 });
 
 export interface MakeBidRequest {
   bid: number;
-  bidderUserId: number;
   auctionId: number;
 }
 
@@ -37,7 +33,7 @@ export interface Bid {
 
 export interface Auction {
   id?: number;
-  name: string;
+  itemName: string;
   seller: User;
   isExpired: boolean;
   expiryDate: Date;
