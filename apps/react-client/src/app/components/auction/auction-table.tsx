@@ -12,11 +12,15 @@ const StyledButton = styled.div`
   width: 100%
 `;
 
+const ClickableTD = styled.td`
+  cursor: pointer;
+`;
+
+
 export const AuctionTable = (props: {
   auctions: Auction[],
   onDelete: (id: number) => void
   onViewBids: (id: number) => void,
-  onMakeABid: (id: number) => void
 }) => {
 
   return (
@@ -35,22 +39,21 @@ export const AuctionTable = (props: {
       </thead>
       <tbody>
       {props.auctions.map((t) => (
-        <tr className={t.isExpired?'expired':''} key={t.id}>
-          <td>{t.id}</td>
-          <td>{t.itemName}</td>
-          <td>{t.seller ? t.seller.email : ''}</td>
-          <td>{t.expiryDate ? format(new Date(t.expiryDate), 'yyyy-MM-dd HH:mm:ss') : ''}</td>
-          <td>{t.reservePrice}</td>
-          <td>{t.winningBid ? t.winningBid.bid : ''}</td>
-          <td>{t.winningBid ? t.winningBid.bidder.email : ''}</td>
+        <tr className={t.isExpired ? 'expired' : ''} key={t.id}>
+          <ClickableTD onClick={()=> props.onViewBids(t.id)}>{t.id}</ClickableTD>
+          <ClickableTD onClick={()=> props.onViewBids(t.id)}>{t.itemName}</ClickableTD>
+          <ClickableTD onClick={()=> props.onViewBids(t.id)}>{t.seller ? t.seller.email : ''}</ClickableTD>
+          <ClickableTD onClick={()=> props.onViewBids(t.id)}>{t.expiryDate ? format(new Date(t.expiryDate), 'yyyy-MM-dd HH:mm:ss') : ''}</ClickableTD>
+          <ClickableTD onClick={()=> props.onViewBids(t.id)}>{t.reservePrice}</ClickableTD>
+          <ClickableTD onClick={()=> props.onViewBids(t.id)}>{t.winningBid ? t.winningBid.bid : ''}</ClickableTD>
+          <ClickableTD onClick={()=> props.onViewBids(t.id)}>{t.winningBid ? t.winningBid.bidder.email : ''}</ClickableTD>
           <td>
             <Dropdown>
               <Dropdown.Toggle as={StyledButton} size="sm" id="dropdown-basic">
               </Dropdown.Toggle>
               <Dropdown.Menu>
-                <Dropdown.Item onClick={() => props.onMakeABid(t.id)}>Make a bid</Dropdown.Item>
                 <Dropdown.Item onClick={() => props.onViewBids(t.id)}>View bids</Dropdown.Item>
-                <Dropdown.Item onClick={() => props.onMakeABid(t.id)}>Delete</Dropdown.Item>
+                <Dropdown.Item onClick={() => props.onDelete(t.id)}>Delete</Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
           </td>
