@@ -6,14 +6,21 @@ import { Wrapper } from '../../common/atom';
 import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
 import MakeABidDialog from './make-a-bid-dialog';
-import { format, formatDistance, formatDistanceToNow, formatRelative } from 'date-fns';
+import { format, formatDistanceToNow, formatRelative } from 'date-fns';
 import styled from 'styled-components';
 
 const ButtonContainer = styled.div`
   margin: auto;
   text-align: center;
   width: 100%
-`
+`;
+
+const NoBidLabel = styled.h3`
+  margin: 0;
+  text-align: center;
+  color: lightgray;
+  padding-bottom: 50px;
+`;
 
 const AuctionBids = (props) => {
   const id: number = Number.parseInt(props.match.params.id);
@@ -25,6 +32,9 @@ const AuctionBids = (props) => {
   const minBid = auction && auction.winningBid ? auction.winningBid.bid : 0;
   const expires = auction && formatRelative(new Date(auction.expiryDate), new Date());
   const timeLeft = auction && formatDistanceToNow(new Date(auction.expiryDate));
+  const isLive = auction && !auction.isExpired;
+  const showNoBidsLabel = auction && (!auction.bidHistory || (auction.bidHistory && auction.bidHistory.length === 0));
+  console.log(showNoBidsLabel);
 
   const loadAuction = (id: number) => {
     httpGet(`auction/${id}`)
@@ -39,9 +49,11 @@ const AuctionBids = (props) => {
       {show404
       && <FourOFour location={props.location}/> ||
       <div>
-        <h2>Auction Of: {auction?.itemName}</h2>
-        <p>Expires: {expires}</p>
+        <h2>{auction?.itemName}</h2>
+        <p>{isLive ? 'Expires:' : 'Expired:'} {expires}</p>
+        {isLive &&
         <p>Time Left: {timeLeft}</p>
+        }
 
         <Table>
           <thead>
@@ -65,11 +77,16 @@ const AuctionBids = (props) => {
           }
           </tbody>
         </Table>
+        {showNoBidsLabel &&
+        <NoBidLabel>No bids</NoBidLabel>
+        }
+        {isLive &&
         <ButtonContainer>
           <Button
             size="lg"
             onClick={() => setShowBidder(true)}>Bid Now</Button>
         </ButtonContainer>
+        }
 
         <MakeABidDialog minBid={minBid}
                         auctionId={id}
