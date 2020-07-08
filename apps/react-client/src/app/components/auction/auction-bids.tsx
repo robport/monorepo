@@ -35,26 +35,28 @@ const AuctionBids = (props) => {
   const isLive = auction && !auction.isExpired;
   const showNoBidsLabel = auction && (!auction.bidHistory || (auction.bidHistory && auction.bidHistory.length === 0));
 
-  const loadAuction = async (id: number) => {
-    return httpGet(`auction/${id}`)
+  let interval: any;
+
+  const loadAuction = (id: number) => {
+    httpGet(`auction/${id}`)
       .catch(() => setShow404(true))
       .then((auction: Auction) => {
         setAuction(auction);
-        return auction;
+        if ( interval && auction.isExpired ) {
+          clearInterval(interval);
+        }
       });
   };
 
   useEffect(() => {
-    loadAuction(id).then(() => {});
-    const interval = setInterval(async () => {
-      console.log('interval')
-      const auction = await loadAuction(id);
-      if (auction.isExpired) {
-        clearInterval(interval);
-      }
+    loadAuction(id);
+    interval = setInterval(async () => {
+      await loadAuction(id);
     }, 5000);
     return () => {
-      clearInterval(interval);
+      if ( interval ) {
+        clearInterval(interval);
+      }
     };
   }, []);
 
