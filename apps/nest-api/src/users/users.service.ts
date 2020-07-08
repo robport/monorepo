@@ -26,7 +26,7 @@ export class UsersService {
     return result[0];
   }
 
-  async create(email: string, password: string) {
+  async create(email: string, password: string): Promise<User> {
     if ( await this.findByEmail(email)) {
       throw new HttpException(AuthError.EMAIL_ALREADY_REGISTERED, HttpStatus.UNAUTHORIZED);
     }
@@ -37,6 +37,7 @@ export class UsersService {
             VALUES ( ?, ? )`,
       [ email, password ]
     )
+    return await this.findById(result.insertId)
   }
 
   async setLoggedIn(userId: string) {
