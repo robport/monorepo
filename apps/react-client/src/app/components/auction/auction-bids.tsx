@@ -35,24 +35,23 @@ const AuctionBids = (props) => {
   const isLive = auction && !auction.isExpired;
   const showNoBidsLabel = auction && (!auction.bidHistory || (auction.bidHistory && auction.bidHistory.length === 0));
 
-  const loadAuction = (id: number) => {
-    httpGet(`auction/${id}`)
+  const loadAuction = async (id: number) => {
+    return httpGet(`auction/${id}`)
       .catch(() => setShow404(true))
       .then((auction: Auction) => {
         setAuction(auction);
+        return auction;
       });
   };
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      httpGet(`auction/${id}`)
-        .catch(() => setShow404(true))
-        .then((auction: Auction) => {
-          setAuction(auction);
-          if (auction.isExpired) {
-            clearInterval(interval);
-          }
-        });
+    loadAuction(id).then(() => {});
+    const interval = setInterval(async () => {
+      console.log('interval')
+      const auction = await loadAuction(id);
+      if (auction.isExpired) {
+        clearInterval(interval);
+      }
     }, 5000);
     return () => {
       clearInterval(interval);
@@ -105,7 +104,7 @@ const AuctionBids = (props) => {
 
         <MakeABidDialog minBid={minBid}
                         auctionId={id}
-                        onBid={() => loadAuction(auction.id)}
+                        onBid={async () => await loadAuction(auction.id)}
                         onClose={() => setShowBidder(false)}
                         show={showBidder}/>
       </div>
