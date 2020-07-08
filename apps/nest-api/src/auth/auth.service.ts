@@ -25,7 +25,6 @@ export class AuthService {
   }
 
   async login(user: User) {
-    console.log('login', user);
     const payload = { username: user.email, sub: user.id  };
     await this.usersService.setLoggedIn(user.email);
     return {

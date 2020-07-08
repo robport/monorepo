@@ -34,15 +34,30 @@ const AuctionBids = (props) => {
   const timeLeft = auction && formatDistanceToNow(new Date(auction.expiryDate));
   const isLive = auction && !auction.isExpired;
   const showNoBidsLabel = auction && (!auction.bidHistory || (auction.bidHistory && auction.bidHistory.length === 0));
-  console.log(showNoBidsLabel);
 
   const loadAuction = (id: number) => {
     httpGet(`auction/${id}`)
       .catch(() => setShow404(true))
-      .then(setAuction);
+      .then((auction: Auction) => {
+        setAuction(auction);
+      });
   };
 
-  useEffect(() => loadAuction(id), []);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      httpGet(`auction/${id}`)
+        .catch(() => setShow404(true))
+        .then((auction: Auction) => {
+          setAuction(auction);
+          if (auction.isExpired) {
+            clearInterval(interval);
+          }
+        });
+    }, 5000);
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
 
   return (
     <Wrapper>
