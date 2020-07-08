@@ -36,7 +36,6 @@ export class AuctionController {
   @UseGuards(JwtAuthGuard)
   @UsePipes(new JoiValidationPipe(MakeBidSchema))
   async makeBid(@Body() body: MakeBidRequest, @Req() req) {
-    console.log('body', body, 'user', req.user)
     return await this.auctionService.makeBid(body.auctionId, body.bid, req.user.id);
   }
 

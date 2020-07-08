@@ -60,6 +60,7 @@ export class AuctionService {
   }
 
   async makeBid(auctionId: number, bid: number, bidderId: number): Promise<ActionResponse> {
+    this.logger.log(`Received on auction ${auctionId} at ${bid}p, from bidder: ${bidderId} `)
     const auction = await this.auctionDbService.getAuction(auctionId);
     if (!auction) {
       return {

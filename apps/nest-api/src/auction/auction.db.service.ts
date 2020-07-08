@@ -80,7 +80,6 @@ export class AuctionDbService {
     const conn = await this.dbService.getConnection();
     const auctions = await conn.query(
       `SELECT * FROM auctions WHERE id=${id}`);
-    console.log(auctions.length);
     if ( auctions.length !== 1 ) {
       return null;
     }
@@ -90,10 +89,9 @@ export class AuctionDbService {
       `SELECT bids.*, users.email as userEmail
        FROM bids, users
        WHERE auctionId=${id}
-       AND users.id = bids.bidderUserId`
+       AND users.id = bids.bidderUserId
+       ORDER BY bids.time DESC`
     ));
-
-    console.log('bids', result.length);
 
     const bids = result.splice(0, result.length);
 
@@ -118,10 +116,12 @@ export class AuctionDbService {
       auction.bidHistory.push(typedBid);
     });
 
-      auction.seller = await conn.query(
+    const sellerQueryResult = await conn.query(
       `SELECT id, email
             FROM users
             WHERE id = ${auction.sellerUserId}`);
+
+    auction.seller = sellerQueryResult[0];
 
     delete auction.sellerUserId;
     delete auction.winningBidId;
