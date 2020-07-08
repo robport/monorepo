@@ -1,20 +1,20 @@
 import {
   enterTodo,
   getDeleteButton,
-  getErrorMessage,
   getResetButton,
   getSubmitButton,
   getTodos
-} from '../support/app.po';
+} from '../support/todo.po';
 import { login, logout } from '../support/auth.po';
+import { getErrorMessage } from '../support/general.po';
 
-describe('TodoApps', () => {
+describe('Todo', () => {
 
   describe('logged in', () => {
 
     beforeEach(() => {
-      cy.visit('/');
-      login();
+      cy.visit('/todos');
+      login('rob@rob.com', 'password');
       getResetButton().click();
     });
 
@@ -23,10 +23,10 @@ describe('TodoApps', () => {
     });
 
     it('should display todos', () => {
-      getTodos().should((t) => expect(t.length).equal(2));
+      getTodos().should(t => expect(t.length).equal(2));
       enterTodo('New Todo');
       getSubmitButton().click();
-      getTodos().should((t) => expect(t.length).equal(3));
+      getTodos().should(t => expect(t.length).equal(3));
     });
 
     it('should delete item', () => {
@@ -39,19 +39,16 @@ describe('TodoApps', () => {
   describe('logged out', () => {
 
     beforeEach(() => {
-      cy.visit('/');
-      login();
+      cy.visit('/todos');
+      login('rob@rob.com', 'password');
       getResetButton().click();
       logout();
     });
 
     it('should not add and show error bar', () => {
       enterTodo('New Todo');
-      getSubmitButton().click();
+      getSubmitButton().should('be.disabled');
       getTodos().should((t) => expect(t.length).equal(2));
-      getErrorMessage().should($m => {
-        expect($m.first()).to.contain('Unauthorized');
-      });
     });
 
     it('should not delete and show error bar', () => {
@@ -59,7 +56,7 @@ describe('TodoApps', () => {
       deleteBtn.click();
       getTodos().should((t) => expect(t.length).equal(2));
       getErrorMessage().should($m => {
-        expect($m.first()).to.contain('Unauthorized');
+        expect($m.first()).to.contain('login-required');
       });
     });
 

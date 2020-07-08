@@ -82,6 +82,7 @@ const LoginDialog = (props: LoginProps) => {
             <Form.Label>Email</Form.Label>
             <Form.Control
               type="text"
+              id="login-email"
               name="email"
               placeholder="Enter email..."
               {...formik.getFieldProps('email')}
@@ -96,6 +97,7 @@ const LoginDialog = (props: LoginProps) => {
             <Form.Label>Password</Form.Label>
             <Form.Control
               type="password"
+              id="login-password"
               name="password"
               placeholder="Enter password..."
               {...formik.getFieldProps('password')}

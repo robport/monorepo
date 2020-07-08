@@ -56,13 +56,14 @@ const AuctionForm = (props: AuctionAddProps) => {
       <h6>List a new item...</h6>
       <Form.Group>
         <Form.Control type="text"
+                      id="new-item-name"
                       value={formData.auctionName}
                       onChange={handleChange}
                       placeholder="Item description"/>
       </Form.Group>
 
       <AuctionButton variant="primary"
-                     id="add-auction"
+                     id="submit-new-listing"
                      disabled={isAddDisabled()}
                      type="submit">
         Add

@@ -65,13 +65,13 @@ const AuctionBids = (props) => {
       {show404
       && <FourOFour location={props.location}/> ||
       <div>
-        <h2>{auction?.itemName}</h2>
+        <h2 id="auction-detail-item-name">{auction?.itemName}</h2>
         <p>{isLive ? 'Expires:' : 'Expired:'} {expires}</p>
         {isLive &&
         <p>Time Left: {timeLeft}</p>
         }
 
-        <Table>
+        <Table id="auction-detail-bid-table">
           <thead>
           <tr>
             <th>Id</th>
@@ -99,6 +99,7 @@ const AuctionBids = (props) => {
         {isLive &&
         <ButtonContainer>
           <Button
+            id="open-bid-dialog"
             size="lg"
             onClick={() => setShowBidder(true)}>Bid Now</Button>
         </ButtonContainer>

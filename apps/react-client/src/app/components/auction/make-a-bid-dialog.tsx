@@ -59,7 +59,8 @@ const MakeABidDialog = (props: {
   });
 
   return (
-    <Modal show={props.show}
+    <Modal id="bid-dialog"
+           show={props.show}
            onHide={handleClose}
            centered>
 
@@ -85,19 +86,22 @@ const MakeABidDialog = (props: {
             <Form.Control.Feedback type="invalid">
               {formik.errors.bid}
             </Form.Control.Feedback>
-            <AuthErrorFeedback>{error}</AuthErrorFeedback>
+            <AuthErrorFeedback id="server-feedback">
+              {error}
+            </AuthErrorFeedback>
           </Form.Group>
 
         </Modal.Body>
         <Modal.Footer>
 
           <Button type="button"
+                  id="close-bid-dialog"
                   variant="outline-secondary"
                   onClick={handleClose}>Close</Button>
 
           <Button type="submit"
                   disabled={formik.isSubmitting}
-                  id="make-a-bid-button">Bid Now</Button>
+                  id="bid-now">Bid Now</Button>
 
         </Modal.Footer>
       </Form>

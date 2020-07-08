@@ -77,16 +77,16 @@ const App = () => {
             <Nav>
               {
                 isLoggedIn() &&
-                <Nav.Link id="logout-link"
+                <Nav.Link id="logout-nav"
                           onClick={handleLogout}>Logout</Nav.Link>
               }
               {
                 !isLoggedIn() &&
-                <Nav.Link id="loginNav" onClick={handleShowLogin}>Login</Nav.Link>
+                <Nav.Link id="login-nav" onClick={handleShowLogin}>Login</Nav.Link>
               }
               {
                 !isLoggedIn() &&
-                <Nav.Link id="registerNav" onClick={handleShowRegister}>Register</Nav.Link>
+                <Nav.Link id="register-nav" onClick={handleShowRegister}>Register</Nav.Link>
               }
             </Nav>
           </Navbar.Collapse>

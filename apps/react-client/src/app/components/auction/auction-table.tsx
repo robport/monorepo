@@ -39,8 +39,12 @@ export const AuctionTable = (props: {
       </thead>
       <tbody>
       {props.auctions.map((t) => (
-        <tr className={t.isExpired ? 'expired' : ''} key={t.id}>
-          <ClickableTD onClick={()=> props.onViewBids(t.id)}>{t.id}</ClickableTD>
+        <tr className={t.isExpired ? 'auction expired' : 'auction'} key={t.id}>
+          <ClickableTD
+            className="id"
+            onClick={()=> props.onViewBids(t.id)}>
+            {t.id}
+          </ClickableTD>
           <ClickableTD onClick={()=> props.onViewBids(t.id)}>{t.itemName}</ClickableTD>
           <ClickableTD onClick={()=> props.onViewBids(t.id)}>{t.seller ? t.seller.email : ''}</ClickableTD>
           <ClickableTD onClick={()=> props.onViewBids(t.id)}>{t.expiryDate ? format(new Date(t.expiryDate), 'yyyy-MM-dd HH:mm:ss') : ''}</ClickableTD>
