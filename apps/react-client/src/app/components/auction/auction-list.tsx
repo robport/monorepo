@@ -31,10 +31,6 @@ const AuctionList = () => {
       });
   };
 
-  const handleMakeABid = (id: number) => {
-
-  };
-
   const handleViewBids = (id: number) => {
     history.push(`auctions/${id}`);
   };
@@ -44,7 +40,6 @@ const AuctionList = () => {
   return (
     <Wrapper>
       <AuctionTable auctions={auctions}
-                    onMakeABid={handleMakeABid}
                     onViewBids={handleViewBids}
                     onDelete={handleDelete}/>
       <AuctionForm onAdded={getAll}/>
