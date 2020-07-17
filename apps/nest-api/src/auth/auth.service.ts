@@ -2,23 +2,36 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import { AuthError, User } from '@monorepo/data';
+import * as crypto from 'crypto';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AuthService {
   constructor(
     private usersService: UsersService,
-    private jwtService: JwtService
+    private jwtService: JwtService,
+    private configService: ConfigService
   ) {
   }
 
-  async validateUser(email: string, password: string): Promise<any> {
+  private hashPassword(password: string) {
+    const secret = this.configService.get<string>('AUTH_SECRET');
+    return crypto.createHmac('sha256', secret)
+      .update(password)
+      .digest('base64');
+  }
+
+  async validateUser(email: string, password: string): Promise<User> {
+    const hashPassword = this.hashPassword(password);
     const user = await this.usersService.findByEmail(email);
     if (!user) {
       throw new HttpException(AuthError.INVALID_USER, HttpStatus.UNAUTHORIZED);
     }
-    if (user && user.password === password ) {
-      const { password, ...result } = user;
-      return result;
+    if (user && user.password === hashPassword ) {
+      return {
+        id: user.id,
+        email: user.email,
+      };
     } else {
       throw new HttpException(AuthError.INVALID_PASSWORD, HttpStatus.UNAUTHORIZED);
     }
@@ -33,7 +46,8 @@ export class AuthService {
   }
 
   async register(user: User) {
-    const { id } = await this.usersService.create(user.email, user.password );
+    const hashPassword = this.hashPassword(user.password)
+    const { id } = await this.usersService.create(user.email, hashPassword );
     const payload = { username: user.email, sub: id };
     await this.usersService.setLoggedIn(user.email);
     return {

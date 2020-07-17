@@ -4,7 +4,6 @@ import { join } from 'path';
 import { environment } from '../environments/environment';
 import { EventsGateway } from './events.gateway';
 import { TodoController } from '../todos/todo.controller';
-import { MariaDbService } from '../db/maria-db.service';
 import { AuthModule } from '../auth/auth.module';
 import { TodosService } from '../todos/todos.service';
 import { TodosMariaDbService } from '../todos/todos.mariadb.service';
@@ -12,12 +11,25 @@ import { ToolsController } from '../tools/toolsController';
 import { AuctionModule } from '../auction/auction.module';
 import { ScheduleModule } from '@nestjs/schedule';
 import { DbModule } from '../db/db.module';
+import { ConfigModule } from '@nestjs/config';
+import * as Joi from '@hapi/joi';
 
 const imports: any[] = [
   DbModule,
   AuthModule,
   AuctionModule,
-  ScheduleModule.forRoot()
+  ScheduleModule.forRoot(),
+  ConfigModule.forRoot({
+    isGlobal: true,
+    validationSchema: Joi.object({
+      AUTH_SECRET: Joi.string().required(),
+      MARIA_DB_URL: Joi.string().required(),
+      PORT: Joi.number().required(),
+    }),
+    validationOptions: {
+      abortEarly: false
+    }
+  })
 ];
 
 if (environment.production) {
@@ -37,8 +49,7 @@ if (environment.production) {
     EventsGateway,
     { provide: TodosService, useClass: TodosMariaDbService }
   ],
-  exports: [
-  ]
+  exports: []
 })
 export class AppModule {
 }
