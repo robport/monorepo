@@ -1,0 +1,14 @@
+{
+  "short_name": "Rob's App",
+  "name": "Rob's PWA App",
+  "icons": [
+    {
+      "src": "/assets/rob.jpg",
+      "type": "image/jpg"
+    }
+  ],
+  "start_utl": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}

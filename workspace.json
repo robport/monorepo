@@ -15,9 +15,15 @@
             "main": "apps/react-client/src/main.tsx",
             "polyfills": "apps/react-client/src/polyfills.ts",
             "tsConfig": "apps/react-client/tsconfig.app.json",
-            "assets": ["apps/react-client/src/favicon.ico", "apps/react-client/src/assets"],
+            "assets": [
+              "apps/react-client/src/manifest.json",
+              "apps/react-client/src/serviceworker.js",
+              "apps/react-client/src/offline.html",
+              "apps/react-client/src/favicon.ico",
+              "apps/react-client/src/assets"],
             "styles": ["apps/react-client/src/styles.css"],
-            "scripts": [],
+            "scripts": [
+            ],
             "webpackConfig": "@nrwl/react/plugins/webpack"
           },
           "configurations": {
