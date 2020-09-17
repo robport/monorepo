@@ -60,6 +60,10 @@ export class AuctionDbService {
 
   async getExpiredAuctions(): Promise<Auction[]> {
     const conn = await this.dbService.getConnection();
+    if ( !conn ) {
+      return [];
+    }
+
     const results = await conn.query(
       `SELECT *
       FROM auctions
