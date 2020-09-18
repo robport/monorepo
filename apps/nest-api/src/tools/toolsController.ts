@@ -41,9 +41,34 @@ const tools: Tool[] = [
       'Supports for Web Application, Microservices and Libraries.',
       'Use as much or as little of the framework as you like'
     ]
+  },
+  {
+    id: 4,
+    name: 'GitHub Actions',
+    shortDescription: 'CI/CD Pipeline',
+    imageUrl: 'https://avatars0.githubusercontent.com/u/44036562?s=200&amp;v=4',
+    description: 'Software workflow automation directly in GitHub',
+    categories: ['Devops', 'Continuous Integration', 'Continuous Deployment', 'Productivity Tools'],
+    website: 'https://github.com/features/actions/',
+    benefits: [
+      'Automates testing and deployments workflows',
+      'Build definition stored as code in GitHub',
+      'Eliminates the need for separate build service like CircleCI',
+      'Great documentation and extensive flexibility'
+    ]
+  },
+  {
+    id: 5,
+    name: 'Amazon ESC Fargate',
+    shortDescription: 'Container Execution Service',
+    imageUrl: '',
+    description: 'Compute engine to run containers without having to manage individual servers',
+    categories: ['Devops', 'Continuous Integration', 'Continuous Deployment', 'Productivity Tools'],
+    website: 'https://aws.amazon.com/fargate/getting-started/',
+    benefits: [
+      'Resilient, scalable, low maintenance compute container'
+    ]
   }
-
-
 ];
 
 

@@ -50,19 +50,16 @@ const App = () => {
       <Router>
         <Navbar fixed="top" bg="light" expand="sm">
           <LinkContainer to="/">
-            <Navbar.Brand>PorterWeb</Navbar.Brand>
+            <Navbar.Brand>Home</Navbar.Brand>
           </LinkContainer>
           <Navbar.Toggle aria-controls="basic-navbar-nav"/>
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="mr-auto">
-              <LinkContainer to="/home">
-                <Nav.Link>Home</Nav.Link>
-              </LinkContainer>
               <LinkContainer to="/about">
                 <Nav.Link>About</Nav.Link>
               </LinkContainer>
               <LinkContainer to="/stack">
-                <Nav.Link>Stack</Nav.Link>
+                <Nav.Link>My Stack</Nav.Link>
               </LinkContainer>
               <LinkContainer to="/todos">
                 <Nav.Link>Todos</Nav.Link>
