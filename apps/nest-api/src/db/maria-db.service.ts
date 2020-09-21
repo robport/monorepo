@@ -14,7 +14,7 @@ export class MariaDbService {
     if (!this.conn || !this.conn.isValid()) {
       const dbUrl = this.configService.get<string>('MARIA_DB_URL');
 
-      this.logger.log(`Create Connection to Maria DB: ${dbUrl}`);
+      this.logger.log(`Create Connection to Maria DB`);
       try {
         this.conn = await createConnection(dbUrl);
         this.conn.on('error', async err => {
