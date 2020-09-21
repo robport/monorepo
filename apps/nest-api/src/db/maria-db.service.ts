@@ -11,14 +11,17 @@ export class MariaDbService {
   }
 
   async getConnection(): Promise<Connection> {
-    if ( !this.conn.isValid() ) {
+    if (this.conn && !this.conn.isValid() ) {
       this.logger.error('Db connection is invalid, try to reconnect....');
-      this.conn.destroy();
+      try {
+        await this.conn.end();
+      } catch ( err ) {
+        this.logger.error('Failed to end invalid connection');
+      }
     }
 
     if (!this.conn || !this.conn.isValid()) {
       const dbUrl = this.configService.get<string>('MARIA_DB_URL');
-
       this.logger.log(`Create Connection to Maria DB`);
       try {
         this.conn = await createConnection(dbUrl);
