@@ -22,7 +22,7 @@ export class MariaDbService {
         });
         this.logger.log(`Connection created`);
       } catch (err) {
-        this.logger.error(err, 'Failed to create connection');
+        this.logger.error(err, `Failed to create connection to ${dbUrl}`);
         return null;
       }
     }
