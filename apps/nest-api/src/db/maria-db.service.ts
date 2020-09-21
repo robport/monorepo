@@ -13,7 +13,8 @@ export class MariaDbService {
   async getConnection(): Promise<Connection> {
     if (!this.conn || !this.conn.isValid()) {
       const dbUrl = this.configService.get<string>('MARIA_DB_URL');
-      this.logger.log(`Create Connection to Maria DB`);
+
+      this.logger.log(`Create Connection to Maria DB: ${dbUrl}`);
       try {
         this.conn = await createConnection(dbUrl);
         this.conn.on('error', async err => {
@@ -22,7 +23,7 @@ export class MariaDbService {
         });
         this.logger.log(`Connection created`);
       } catch (err) {
-        this.logger.error(err, `Failed to create connection to ${dbUrl}`);
+        this.logger.error(err, `Failed to create connection`);
         return null;
       }
     }
