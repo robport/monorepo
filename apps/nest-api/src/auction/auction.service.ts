@@ -14,7 +14,7 @@ export class AuctionService {
               private auctionDbService: AuctionDbService) {
   }
 
-  @Interval(5000)
+  // @Interval(5000)
   async checkForExpiry() {
     // this.logger.debug('Checking for expiry');
     const expiredAuctions = await this.auctionDbService.getExpiredAuctions();
