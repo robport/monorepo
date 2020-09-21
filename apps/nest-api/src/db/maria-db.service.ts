@@ -11,6 +11,11 @@ export class MariaDbService {
   }
 
   async getConnection(): Promise<Connection> {
+    if ( !this.conn.isValid() ) {
+      this.logger.error('Db connection is invalid, try to reconnect....');
+      this.conn.destroy();
+    }
+
     if (!this.conn || !this.conn.isValid()) {
       const dbUrl = this.configService.get<string>('MARIA_DB_URL');
 

@@ -1,18 +1,28 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { Todo } from '@monorepo/data';
 import { TodosService } from './todos.service';
 import { MariaDbService } from '../db/maria-db.service';
 
 @Injectable()
 export class TodosMariaDbService implements TodosService {
+  logger = new Logger('TodosMariaDbService');
 
   constructor(private dbService: MariaDbService) {
   }
 
   async getTodos(): Promise<Todo[]> {
-    let conn = await this.dbService.getConnection();
-    const rows = await conn.query('SELECT id, title FROM todos');
-    return rows.slice(0, rows.length);
+    try {
+      let conn = await this.dbService.getConnection();
+      if ( !conn ) {
+        this.logger.error('No db connection returned');
+      }
+
+      const rows = await conn.query('SELECT id, title FROM todos');
+      return rows.slice(0, rows.length);
+    } catch (err) {
+      this.logger.error(err, 'Failed to getTodos()');
+      throw err;
+    }
   }
 
   async getTodo(id: number): Promise<Todo> {
