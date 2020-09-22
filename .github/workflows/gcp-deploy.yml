@@ -33,6 +33,7 @@ jobs:
         with:
           secrets: |-
             dbUrl:projects/526232931256/secrets/MARIA_DB_URL_PROD/versions/1
+            authSecret:projects/526232931256/secrets/AUTH_SECRET_PROD/versions/1
 
       # Build and push image to Google Container Registry
 #      - name: Build
@@ -46,6 +47,7 @@ jobs:
       - name: Deploy
         env:
           MARIA_DB_URL: ${{ steps.secrets.outputs.dbUrl }}
+          AUTH_SECRET: ${{ steps.secrets.outputs.authSecret }}
         run: |-
           echo DbURL=${{ steps.secrets.outputs.dbUrls }}
           echo MDB=$MARIA_DB_URL
