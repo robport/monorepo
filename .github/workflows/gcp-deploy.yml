@@ -7,7 +7,7 @@ on:
 
 env:
   PROJECT_ID: ${{ secrets.RUN_PROJECT }}
-  RUN_REGION: europe-west2
+  RUN_REGION: europe-west1
   SERVICE_NAME: monorepo
 
 jobs:
