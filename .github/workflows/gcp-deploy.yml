@@ -16,8 +16,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
+#      - name: Checkout
+#        uses: actions/checkout@v2
 
       # Setup gcloud CLI
       - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
@@ -27,17 +27,20 @@ jobs:
           project_id: ${{ secrets.RUN_PROJECT }}
 
       # Build and push image to Google Container Registry
-      - name: Build
-        run: |-
-          gcloud builds submit \
-            --quiet \
-            --tag "gcr.io/$PROJECT_ID/$SERVICE_NAME:$GITHUB_SHA"
+#      - name: Build
+#        run: |-
+#          echo Image Name: "gcr.io/$PROJECT_ID/$SERVICE_NAME:$GITHUB_SHA"
+#          gcloud builds submit \
+#            --quiet \
+#            --tag "gcr.io/$PROJECT_ID/$SERVICE_NAME:$GITHUB_SHA"
+
       # Deploy image to Cloud Run
       - name: Deploy
         run: |-
           gcloud run deploy "$SERVICE_NAME" \
             --quiet \
             --region "$RUN_REGION" \
-            --image "gcr.io/$PROJECT_ID/$SERVICE_NAME:$GITHUB_SHA" \
+            --image "gcr.io/mardb1/monorepo@sha256:6b90f3cd9b87939e38179f55cfb1bc196fc67e08f1974baffcc45a5b8f9feeb6" \
             --platform "managed" \
             --allow-unauthenticated
+#            --image "gcr.io/$PROJECT_ID/$SERVICE_NAME:$GITHUB_SHA" \
