@@ -26,6 +26,13 @@ jobs:
           service_account_key: ${{ secrets.RUN_SA_KEY }}
           project_id: ${{ secrets.RUN_PROJECT }}
 
+      # Get Secrets
+      - id: secrets
+        uses: GoogleCloudPlatform/github-actions/get-secretmanager-secrets@master
+        with:
+          secrets: |-
+            dbUrl:projects/526232931256/secrets/MARIA_DB_URL_PROD/versions/1
+
       # Build and push image to Google Container Registry
 #      - name: Build
 #        run: |-
@@ -36,12 +43,14 @@ jobs:
 
       # Deploy image to Cloud Run
       - name: Deploy
+        env:
+          MARIA_DB_URL: kjnkjnkjnkjn
         run: |-
+          echo Db URL ={{ steps.secrets.outputs.dbUrls }}
           gcloud run deploy "$SERVICE_NAME" \
             --region "$RUN_REGION" \
             --image "gcr.io/mardb1/monorepo@sha256:6b90f3cd9b87939e38179f55cfb1bc196fc67e08f1974baffcc45a5b8f9feeb6" \
             --platform "managed" \
             --allow-unauthenticated \
-            --set-env-vars=MARIA_DB_URL=secret:/projects/526232931256/secrets/MARIA_DB_URL_PROD/versions/1
 #            --image "gcr.io/$PROJECT_ID/$SERVICE_NAME:$GITHUB_SHA" \
 #             --quiet \
