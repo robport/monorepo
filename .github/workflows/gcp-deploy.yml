@@ -31,7 +31,6 @@ jobs:
       - id: secrets
         uses: GoogleCloudPlatform/github-actions/get-secretmanager-secrets@master
         with:
-          export_default_credentials: true
           secrets: |-
             dbUrl:projects/526232931256/secrets/MARIA_DB_URL_PROD/versions/1
 
