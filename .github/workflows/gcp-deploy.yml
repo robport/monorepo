@@ -42,6 +42,6 @@ jobs:
             --region "$RUN_REGION" \
             --image "gcr.io/mardb1/monorepo@sha256:6b90f3cd9b87939e38179f55cfb1bc196fc67e08f1974baffcc45a5b8f9feeb6" \
             --platform "managed" \
-            --allow-unauthenticated
+            --allow-unauthenticated \
             --set-env-vars=MARIA_DB_URL=secret:/projects/526232931256/secrets/MARIA_DB_URL_PROD/versions/1
 #            --image "gcr.io/$PROJECT_ID/$SERVICE_NAME:$GITHUB_SHA" \
