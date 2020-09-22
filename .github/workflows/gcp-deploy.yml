@@ -45,9 +45,9 @@ jobs:
       # Deploy image to Cloud Run
       - name: Deploy
         env:
-          MARIA_DB_URL: {{ steps.secrets.outputs.dbUrls }}
+          MARIA_DB_URL: ${{ steps.secrets.outputs.dbUrl }}
         run: |-
-          echo DbURL={{ steps.secrets.outputs.dbUrls }}
+          echo DbURL=${{ steps.secrets.outputs.dbUrls }}
           echo MDB=$MARIA_DB_URL
           gcloud run deploy "$SERVICE_NAME" \
             --region "$RUN_REGION" \
