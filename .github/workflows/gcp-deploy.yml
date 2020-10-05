@@ -53,9 +53,8 @@ jobs:
         run: |-
           gcloud run deploy "$SERVICE_NAME" \
             --region "$RUN_REGION" \
-            --image gcr.io/mardb1/monorepo@sha256:dd99cd07e63e481173ed59209672523f2921658a7dc007417fc97d58c969279a \
+            --image "gcr.io/$PROJECT_ID/$SERVICE_NAME:$GITHUB_SHA" \
             --platform "managed" \
             --allow-unauthenticated \
 #             --quiet \
-#               --image "gcr.io/$PROJECT_ID/$SERVICE_NAME:$GITHUB_SHA" \
 #
