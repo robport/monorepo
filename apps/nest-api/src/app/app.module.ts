@@ -23,7 +23,7 @@ const imports: any[] = [
   ConfigModule.forRoot({
     isGlobal: true,
     validationSchema: Joi.object({
-      AUTH_SECRET: Joi.string().required(),
+      // AUTH_SECRET: Joi.string().required(),
       MARIA_DB_URL: Joi.string().required(),
       MONGO_DB_URL: Joi.string().required(),
       PORT: Joi.number().required(),
