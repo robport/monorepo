@@ -5,7 +5,7 @@ import Table from 'react-bootstrap/Table';
 
 export const TodosTable = (props: {
   todos: Todo[],
-  onDelete: (id: number) => void
+  onDelete: (id: number | string) => void
 }) => {
 
   return (

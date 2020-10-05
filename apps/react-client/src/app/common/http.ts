@@ -61,7 +61,7 @@ export const httpGet = async (resource: string)
   return handleResponse(response);
 };
 
-export const httpDeleteOne = async (resource: string, id: number) => {
+export const httpDeleteOne = async (resource: string, id: number | string) => {
   return httpDelete(`${resource}/${id}`);
 };
 

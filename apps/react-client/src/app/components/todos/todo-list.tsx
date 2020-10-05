@@ -16,7 +16,7 @@ const TodoList = () => {
       .then(setTodos);
   };
 
-  const onDelete = (id: number) => {
+  const onDelete = (id: number | string) => {
     removeError();
     httpDeleteOne('todos', id)
       .catch(e => addError(e.message))
