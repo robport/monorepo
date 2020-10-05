@@ -13,6 +13,7 @@ import { ScheduleModule } from '@nestjs/schedule';
 import { DbModule } from '../db/db.module';
 import { ConfigModule } from '@nestjs/config';
 import * as Joi from '@hapi/joi';
+import { TodosMongoDbService } from '../todos/todos-mongo-db.service';
 
 const imports: any[] = [
   DbModule,
@@ -47,7 +48,7 @@ if (environment.production) {
   ],
   providers: [
     EventsGateway,
-    { provide: TodosService, useClass: TodosMariaDbService }
+    { provide: TodosService, useClass: TodosMongoDbService }
   ],
   exports: []
 })
