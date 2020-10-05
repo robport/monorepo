@@ -37,12 +37,12 @@ jobs:
             mongoDbUrl:projects/526232931256/secrets/MONGO_DB_URL/versions/1
 
       # Build and push image to Google Container Registry
-#      - name: Build
-#        run: |-
-#          echo Image Name: "gcr.io/$PROJECT_ID/$SERVICE_NAME:$GITHUB_SHA"
-#          gcloud builds submit \
-#            --quiet \
-#            --tag "gcr.io/$PROJECT_ID/$SERVICE_NAME:$GITHUB_SHA"
+      - name: Build
+        run: |-
+          echo Image Name: "gcr.io/$PROJECT_ID/$SERVICE_NAME:$GITHUB_SHA"
+          gcloud builds submit \
+            --quiet \
+            --tag "gcr.io/$PROJECT_ID/$SERVICE_NAME:$GITHUB_SHA"
 
       # Deploy image to Cloud Run
       - name: Deploy
@@ -51,7 +51,6 @@ jobs:
           MONGO_DB_URL: ${{ steps.secrets.outputs.mongoDbUrl }}
           AUTH_SECRET: ${{ steps.secrets.outputs.authSecret }}
         run: |-
-          echo AUTH_SECRET=$AUTH_SECRET
           gcloud run deploy "$SERVICE_NAME" \
             --region "$RUN_REGION" \
             --image gcr.io/mardb1/monorepo@sha256:dd99cd07e63e481173ed59209672523f2921658a7dc007417fc97d58c969279a \
