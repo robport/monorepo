@@ -45,14 +45,9 @@ export class TodoController {
     }
   }
 
-  @UseGuards(JwtAuthGuard)
   @Get(':id')
   findOne(@Param() params): Promise<Todo> {
-    const id = Number.parseInt(params.id);
-    if (Number.isNaN(id)) {
-      throw new NotFoundException(`Invalid id ${params.id}`);
-    }
-    const todo = this.todosService.getTodo(id);
+    const todo = this.todosService.getTodo(params.id);
     if (!todo) {
       throw new NotFoundException(`No such todo ${params.id}`);
     }
@@ -62,11 +57,7 @@ export class TodoController {
   @UseGuards(JwtAuthGuard)
   @Delete('/:id')
   async delete(@Param('id') idParam: string) {
-    const id = Number.parseInt(idParam);
-    if (Number.isNaN(id)) {
-      throw new NotFoundException(`Invalid id ${id}`);
-    }
-    await this.todosService.deleteTodo(id);
+    await this.todosService.deleteTodo(idParam);
   }
 }
 

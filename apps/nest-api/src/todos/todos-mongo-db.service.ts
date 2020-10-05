@@ -2,6 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { Todo } from '@monorepo/data';
 import { TodosService } from './todos.service';
 import { MongoDbService } from '../db/mongo-db.service';
+import { ObjectId } from 'mongodb';
 
 const DB_NAME = 'experiment';
 
@@ -35,10 +36,11 @@ export class TodosMongoDbService implements TodosService {
   }
 
   async getTodo(id: string): Promise<Todo> {
+    this.logger.debug(`getTodo ${id}`);
     const conn = await this.dbService.getConnection();
     const db = conn.db(DB_NAME);
     const todosCollection = await db.collection(POSTS_COLLECTION_NAME)
-    const todo = await todosCollection.findOne({ _id: id });
+    const todo = await todosCollection.findOne({ _id: new ObjectId(id) });
     if ( !todo ) {
       throw new Error('No such todo');
     }
@@ -49,6 +51,7 @@ export class TodosMongoDbService implements TodosService {
   }
 
   async addTodo(todo: Todo): Promise<Todo> {
+    this.logger.debug(`addTodo ${JSON.stringify(todo)}`);
     let conn = await this.dbService.getConnection();
     const db = conn.db(DB_NAME);
     const todosCollection = await db.collection(POSTS_COLLECTION_NAME);
@@ -74,12 +77,13 @@ export class TodosMongoDbService implements TodosService {
     }
   }
 
-  async deleteTodo(id: number): Promise<void> {
+  async deleteTodo(id: number | string): Promise<void> {
+    this.logger.debug(`deleteTodo ${id}`);
     const conn = await this.dbService.getConnection();
     await conn.db(DB_NAME)
       .collection(POSTS_COLLECTION_NAME)
       .deleteOne({
-        _id: id
+        _id: new ObjectId(id)
       });
   }
 

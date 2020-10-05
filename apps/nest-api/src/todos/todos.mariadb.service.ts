@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { Todo } from '@monorepo/data';
 import { TodosService } from './todos.service';
 import { MariaDbService } from '../db/maria-db.service';
@@ -25,7 +25,12 @@ export class TodosMariaDbService implements TodosService {
     }
   }
 
-  async getTodo(id: number): Promise<Todo> {
+  async getTodo(idStr: string): Promise<Todo> {
+    const id = Number.parseInt(idStr);
+    if (Number.isNaN(id)) {
+      throw new NotFoundException(`Invalid id ${id}`);
+    }
+
     let conn = await this.dbService.getConnection();
     const rows = await conn.query(
       `SELECT id, title FROM todos WHERE id=${id}`);
@@ -58,12 +63,16 @@ export class TodosMariaDbService implements TodosService {
     }
   }
 
-  async deleteTodo(id: number): Promise<void> {
+  async deleteTodo(idStr: string): Promise<void> {
+    const id = Number.parseInt(idStr);
+    if (Number.isNaN(id)) {
+      throw new NotFoundException(`Invalid id ${id}`);
+    }
     let conn = await this.dbService.getConnection();
     await conn.query(
       `DELETE FROM todos WHERE id=${id};`
     );
-    return Promise.resolve(undefined);
+    return Promise.resolve();
   }
 
 }
