@@ -10,7 +10,9 @@ jobs:
       - uses: actions/setup-node@v1
           with:
             node-version: 14
-      - run: npx nx test nest-api
+      - run: |-
+        npm install
+        npx nx test nest-api
 
 
 
