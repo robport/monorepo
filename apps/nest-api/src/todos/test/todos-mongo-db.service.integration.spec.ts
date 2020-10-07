@@ -1,45 +1,23 @@
-import { MongoMemoryServer } from 'mongodb-memory-server';
 import { Db, MongoClient } from 'mongodb';
 
-jest.setTimeout(100000000);
-
-describe('todos mongo db service', () => {
+describe('jest memory server', () => {
 
   let mongoClient: MongoClient;
   let db: Db;
 
-  const mongoServer = new MongoMemoryServer({
-    // binary: {
-    //   version: 'latest',
-    //   platform: 'win32'
-    // }
-  });
-
-
   describe('should add a todo', () => {
     beforeEach(async () => {
-      await mongoServer.start();
-      const uri = await mongoServer.getUri();
-      const port = await mongoServer.getPort();
-      const dbPath = await mongoServer.getDbPath();
-      const dbName = await mongoServer.getDbName();
-
-      console.log(uri, port, dbPath, dbName);
-
-      mongoClient = await MongoClient.connect(uri, {
+      mongoClient = await MongoClient.connect(process.env.MONGO_URL, {
         useNewUrlParser: true,
         useUnifiedTopology: true
       });
 
-      db = mongoClient.db(await mongoServer.getDbName());
+      db = mongoClient.db('test');
     });
 
     afterEach(async () => {
       if (mongoClient) {
         await mongoClient.close();
-      }
-      if (mongoServer) {
-        await mongoServer.stop();
       }
     });
 
