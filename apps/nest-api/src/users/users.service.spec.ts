@@ -1,12 +1,18 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UsersService } from './users.service';
+import { MariaDbService } from '../db/maria-db.service';
 
 describe('UsersService', () => {
   let service: UsersService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [UsersService],
+      providers: [
+        UsersService,
+        {
+          provide: MariaDbService, useFactory: () => {
+          }
+        }]
     }).compile();
 
     service = module.get<UsersService>(UsersService);
