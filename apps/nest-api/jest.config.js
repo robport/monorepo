@@ -6,6 +6,7 @@ module.exports = {
   transform: {
     '^.+\\.(ts|js|html)$': 'ts-jest',
   },
+  transformIgnorePatterns: ['^.+\\.js$'],
   resolver: '@nrwl/jest/plugins/resolver',
   moduleFileExtensions: ['ts', 'js', 'html'],
   coverageReporters: ['html'],
