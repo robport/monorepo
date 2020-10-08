@@ -12,7 +12,7 @@ jobs:
           node-version: 14
       - run: |-
         npm install
-        npx nx test nest-api
+        npm run nx test nest-api
 
 
 
