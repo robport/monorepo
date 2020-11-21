@@ -1,5 +1,6 @@
 import { Controller, Get } from '@nestjs/common';
 import { Tool } from '../../../react-client/src/app/components/tools/tool.model';
+import { ApiTags } from '@nestjs/swagger';
 
 const tools: Tool[] = [
   {
@@ -71,7 +72,7 @@ const tools: Tool[] = [
   }
 ];
 
-
+@ApiTags('Architecture')
 @Controller('tools')
 export class ToolsController {
   @Get()

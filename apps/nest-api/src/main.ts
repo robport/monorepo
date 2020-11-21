@@ -5,6 +5,7 @@ import { AppModule } from './app/app.module';
 import * as compression from 'compression';
 import * as helmet from 'helmet';
 import { ConfigService } from '@nestjs/config';
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -14,6 +15,16 @@ async function bootstrap() {
   const globalPrefix = 'api';
   app.setGlobalPrefix(globalPrefix);
   const port = configService.get<number>('PORT');
+
+  const options = new DocumentBuilder()
+    .setTitle('Monorepo Nest API')
+    .setDescription('Robs Demo Architecture')
+    .setVersion('1.0')
+    .build();
+
+  const document = SwaggerModule.createDocument(app, options);
+  SwaggerModule.setup(globalPrefix, app, document);
+
   await app.listen(port, () => {
     Logger.log('Listening at http://localhost:' + port + '/' + globalPrefix);
   });

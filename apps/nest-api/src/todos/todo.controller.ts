@@ -13,7 +13,9 @@ import {
 import { Todo } from '@monorepo/data';
 import { TodosService } from './todos.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { ApiCreatedResponse, ApiForbiddenResponse, ApiHeader, ApiResponse, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Todo')
 @Controller('todos')
 export class TodoController {
   todos: Todo[];
@@ -26,6 +28,8 @@ export class TodoController {
     return await this.todosService.getTodos();
   }
 
+  @ApiCreatedResponse({ description: 'Todo created successfully', type: Todo })
+  @ApiForbiddenResponse({ status: 403, description: 'Forbidden.' })
   @UseGuards(JwtAuthGuard)
   @Post()
   create(@Body() todo: Todo, @Request() req) {
@@ -42,7 +46,7 @@ export class TodoController {
     await this.todosService.reset();
     return {
       success: true
-    }
+    };
   }
 
   @Get(':id')

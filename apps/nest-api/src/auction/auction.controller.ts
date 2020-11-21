@@ -10,7 +10,9 @@ import {
 } from '@monorepo/data';
 import { JoiValidationPipe } from './joi-validation.pipe';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Auction')
 @Controller('auction')
 export class AuctionController {
   constructor(private auctionService: AuctionService) {
