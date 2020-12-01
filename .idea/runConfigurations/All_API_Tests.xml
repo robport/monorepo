@@ -1,9 +1,9 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="All Tests" type="JavaScriptTestRunnerJest" nameIsGenerated="true">
+  <configuration default="false" name="All API Tests" type="JavaScriptTestRunnerJest">
     <node-interpreter value="project" />
     <node-options value="" />
     <jest-package value="$PROJECT_DIR$/node_modules/jest" />
-    <working-dir value="$PROJECT_DIR$" />
+    <working-dir value="$PROJECT_DIR$/apps/nest-api" />
     <envs />
     <scope-kind value="ALL" />
     <method v="2" />

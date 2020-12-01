@@ -6,7 +6,7 @@ export class MockTodoService extends TodosService {
   nextId: number = 0;
 
   addTodo(todo: Todo): Promise<Todo> {
-    todo.id = this.nextId;
+    todo.id = this.nextId.toString();
     this.nextId++;
     this.todos.push(todo);
     return Promise.resolve(todo);
