@@ -1,10 +1,10 @@
 import request from 'supertest';
 import { Test } from '@nestjs/testing';
-import { TodoController } from '../todo.controller';
-import { TodosService } from '../todos.service';
+import { TodoController } from './todo.controller';
+import { TodosService } from './todos.service';
 import { INestApplication } from '@nestjs/common';
-import { TodosMongoDbService } from '../todos-mongo-db.service';
-import { MongoDbService } from '../../db/mongo-db.service';
+import { TodosMongoDbService } from './todos-mongo-db.service';
+import { MongoDbService } from '../db/mongo-db.service';
 import { ConfigService } from '@nestjs/config';
 
 describe('todo-controller integration test', function() {

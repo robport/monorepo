@@ -32,7 +32,7 @@ export class TodoController {
   @ApiForbiddenResponse({ status: 403, description: 'Forbidden.' })
   @UseGuards(JwtAuthGuard)
   @Post()
-  create(@Body() todo: Todo, @Request() req) {
+  create(@Body() todo: Todo) {
     if (!todo || !todo.title) {
       throw new BadRequestException('Expected todo in body');
     }

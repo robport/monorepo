@@ -1,4 +1,4 @@
-import { TodosService } from '../todos.service';
+import { TodosService } from './todos.service';
 import { Todo } from '@monorepo/data';
 
 export class MockTodoService extends TodosService {

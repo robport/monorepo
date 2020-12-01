@@ -1,7 +1,7 @@
 import request from 'supertest';
 import { Test } from '@nestjs/testing';
-import { TodoController } from '../todo.controller';
-import { TodosService } from '../todos.service';
+import { TodoController } from './todo.controller';
+import { TodosService } from './todos.service';
 import { MockTodoService } from './mock-todo-service';
 import { INestApplication } from '@nestjs/common';
 
